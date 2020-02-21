@@ -42,9 +42,9 @@
 #include <tesseract_rviz/interactive_marker/interactive_marker_control.h>
 #endif
 
-#include "rviz/selection/forwards.h"
-#include "rviz/ogre_helpers/axes.h"
-#include "rviz/properties/status_property.h"
+#include "rviz_common/interaction/forwards.hpp"
+#include "rviz_rendering/objects/axes.hpp"
+#include "rviz_common/properties/status_property.hpp"
 
 namespace Ogre
 {

@@ -45,8 +45,8 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <tesseract_scene_graph/joint.h>
 #endif
 
-#include <rviz/ogre_helpers/object.h>
-#include <rviz/selection/forwards.h>
+#include <rviz_rendering/objects/object.hpp>
+#include <rviz_common/interaction/forwards.hpp>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace Ogre

@@ -39,8 +39,8 @@
 
 #include <tesseract_common/macros.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <rviz/display.h>
-#include <rviz/panel_dock_widget.h>
+#include <rviz_common/display.hpp>
+#include <rviz_common/panel_dock_widget.hpp>
 #include <boost/thread/mutex.hpp>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 

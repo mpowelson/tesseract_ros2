@@ -32,7 +32,7 @@
 
 #include <tesseract_common/macros.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <rviz/robot/link_updater.h>
+#include <rviz_default_plugins/robot/link_updater.hpp>
 
 #include <string>
 #include <map>
@@ -41,7 +41,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 #include <OgreAny.h>
-#include "rviz/properties/property_tree_widget.h"
+#include "rviz_common/properties/property_tree_widget.hpp"
 #endif
 
 TESSERACT_COMMON_IGNORE_WARNINGS_POP

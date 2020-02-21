@@ -43,9 +43,9 @@
 
 #include <QCursor>
 
-#include "rviz/selection/forwards.h"
-#include "rviz/viewport_mouse_event.h"
-#include "rviz/interactive_object.h"
+#include "rviz_common/interaction/forwards.hpp"
+#include "rviz_common/viewport_mouse_event.hpp"
+#include "rviz_common/interactive_object.hpp"
 
 namespace Ogre
 {

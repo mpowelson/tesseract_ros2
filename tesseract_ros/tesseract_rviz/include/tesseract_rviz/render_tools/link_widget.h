@@ -50,9 +50,9 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <tesseract_scene_graph/link.h>
 #endif
 
-#include <rviz/ogre_helpers/object.h>
-#include <rviz/ogre_helpers/point_cloud.h>
-#include <rviz/selection/forwards.h>
+#include <rviz_rendering/objects/object.hpp>
+#include <rviz_rendering/objects/point_cloud.hpp>
+#include <rviz_common/interaction/forwards.hpp>
 
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 

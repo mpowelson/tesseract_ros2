@@ -3,7 +3,7 @@
 
 #include <tesseract_common/macros.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <rviz/display.h>
+#include <rviz_common/display.hpp>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #ifndef Q_MOC_RUN

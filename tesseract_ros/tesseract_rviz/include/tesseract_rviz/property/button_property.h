@@ -29,7 +29,7 @@
 #include <QStringList>
 #include <QPushButton>
 
-#include "rviz/properties/property.h"
+#include "rviz_common/properties/property.hpp"
 
 namespace tesseract_rviz
 {

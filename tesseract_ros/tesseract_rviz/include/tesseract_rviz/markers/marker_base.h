@@ -29,11 +29,11 @@
 #ifndef TESSERACT_RVIZ_MARKERS_MARKER_BASE_H
 #define TESSERACT_RVIZ_MARKERS_MARKER_BASE_H
 
-#include "rviz/selection/forwards.h"
-#include "rviz/interactive_object.h"
+#include "rviz_common/interaction/forwards.hpp"
+#include "rviz_common/interactive_object.hpp"
 
 #ifndef Q_MOC_RUN
-#include <ros/time.h>
+//#include <ros/time.h>  //TODO REmove
 #include <boost/shared_ptr.hpp>
 #endif
 

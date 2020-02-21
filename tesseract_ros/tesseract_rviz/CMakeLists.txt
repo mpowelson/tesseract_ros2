@@ -1,17 +1,16 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(tesseract_rviz)
+project(tesseract_rviz VERSION 0.1.0)
 
 add_compile_options(-std=c++11 -Wall -Wextra)
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  message_generation
-  tesseract_msgs
-  tesseract_rosutils
-  rviz
-  pluginlib
-  interactive_markers
-)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(message_generation REQUIRED)
+find_package(tesseract_msgs REQUIRED)
+find_package(tesseract_rosutils REQUIRED)
+find_package(rviz2 REQUIRED)
+find_package(pluginlib REQUIRED)
+find_package(interactive_markers REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED thread date_time system filesystem)
@@ -48,34 +47,33 @@ endif()
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-catkin_package(
-  INCLUDE_DIRS
-    include
-    ${Boost_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIRS}
-    ${QT_INCLUDE_DIR}
-    ${OGRE_INCLUDE_DIRS}
-  LIBRARIES
-    ${PROJECT_NAME}_render_tools
-    ${PROJECT_NAME}_state_plugin_core
-  CATKIN_DEPENDS
-    roscpp
-    message_generation
-    tesseract_msgs
-    tesseract_rosutils
-    rviz
-    pluginlib
-    interactive_markers
-  DEPENDS
-    Boost
-    OGRE
-    QT
-    tesseract
-)
+#catkin_package(
+#  INCLUDE_DIRS
+#    include
+#    ${Boost_INCLUDE_DIRS}
+#    ${EIGEN3_INCLUDE_DIRS}
+#    ${QT_INCLUDE_DIR}
+#    ${OGRE_INCLUDE_DIRS}
+#  LIBRARIES
+#    ${PROJECT_NAME}_render_tools
+#    ${PROJECT_NAME}_state_plugin_core
+#  CATKIN_DEPENDS
+#    roscpp
+#    message_generation
+#    tesseract_msgs
+#    tesseract_rosutils
+#    rviz
+#    pluginlib
+#    interactive_markers
+#  DEPENDS
+#    Boost
+#    OGRE
+#    QT
+#    tesseract
+#)
 
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
   SYSTEM ${Boost_INCLUDE_DIRS}
   SYSTEM ${EIGEN3_INCLUDE_DIRS}
   SYSTEM ${QT_INCLUDE_DIR}
@@ -122,9 +120,8 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   ${${PROJECT_NAME}_render_tools_cpp_MOCS}
 )
 
-target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC
+ament_target_dependencies(${PROJECT_NAME}_render_tools PUBLIC
   tesseract::tesseract
-  ${catkin_LIBRARIES}
   ${OGRE_LIBRARIES}
   ${QT_LIBRARIES}
   ${Boost_LIBRARIES}
@@ -140,186 +137,221 @@ target_include_directories(${PROJECT_NAME}_render_tools PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:include>")
 target_include_directories(${PROJECT_NAME}_render_tools SYSTEM PUBLIC
-    ${catkin_INCLUDE_DIRS}
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
     ${Boost_INCLUDE_DIRS}
     ${QT_INCLUDE_DIR}
     ${OGRE_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS})
 
-#add_library(${PROJECT_NAME}_scene_plugin_core
-#  src/tesseract_scene_plugin/tesseract_scene_display.cpp
-#  include/tesseract_rviz/tesseract_scene_plugin/tesseract_scene_display.h)
-#target_link_libraries(${PROJECT_NAME}_scene_plugin_core ${PROJECT_NAME}_render_tools ${catkin_LIBRARIES} ${OGRE_LIBRARIES} ${QT_LIBRARIES} ${Boost_LIBRARIES})
+##add_library(${PROJECT_NAME}_scene_plugin_core
+##  src/tesseract_scene_plugin/tesseract_scene_display.cpp
+##  include/tesseract_rviz/tesseract_scene_plugin/tesseract_scene_display.h)
+##ament_add_dependencies(${PROJECT_NAME}_scene_plugin_core ${PROJECT_NAME}_render_tools ${OGRE_LIBRARIES} ${QT_LIBRARIES} ${Boost_LIBRARIES})
 
-#add_library(${PROJECT_NAME}_scene_plugin src/tesseract_scene_plugin/plugin_init.cpp)
-#target_link_libraries(${PROJECT_NAME}_scene_plugin ${PROJECT_NAME}_scene_plugin_core ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+##add_library(${PROJECT_NAME}_scene_plugin src/tesseract_scene_plugin/plugin_init.cpp)
+##ament_add_dependencies(${PROJECT_NAME}_scene_plugin ${PROJECT_NAME}_scene_plugin_core ${Boost_LIBRARIES})
 
-# Trajectory State Disply
-qt_wrap_cpp(${PROJECT_NAME}_state_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_state_plugin/tesseract_state_display.h)
+## Trajectory State Disply
+#qt_wrap_cpp(${PROJECT_NAME}_state_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_state_plugin/tesseract_state_display.h)
 
-add_library(${PROJECT_NAME}_state_plugin_core SHARED src/tesseract_state_plugin/tesseract_state_display.cpp ${${PROJECT_NAME}_state_plugin_core_cpp_MOCS})
-target_link_libraries(${PROJECT_NAME}_state_plugin_core PUBLIC
-    ${PROJECT_NAME}_render_tools
-    ${catkin_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${QT_LIBRARIES}
-    ${Boost_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_state_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_state_plugin_core PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_state_plugin_core PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_state_plugin_core PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_state_plugin_core SYSTEM PUBLIC
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${QT_INCLUDE_DIR}
-    ${OGRE_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_state_plugin_core SHARED src/tesseract_state_plugin/tesseract_state_display.cpp ${${PROJECT_NAME}_state_plugin_core_cpp_MOCS})
+#ament_target_dependencies(${PROJECT_NAME}_state_plugin_core PUBLIC
+#  ${PROJECT_NAME}_render_tools
+#  ${OGRE_LIBRARIES}
+#  ${QT_LIBRARIES}
+#  ${Boost_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_state_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_state_plugin_core PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_state_plugin_core PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_state_plugin_core PUBLIC
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_state_plugin_core SYSTEM PUBLIC
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS}
+#    ${QT_INCLUDE_DIR}
+#    ${OGRE_INCLUDE_DIRS}
+#    ${EIGEN3_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME}_state_plugin SHARED src/tesseract_state_plugin/plugin_init.cpp)
-target_link_libraries(${PROJECT_NAME}_state_plugin PRIVATE ${PROJECT_NAME}_state_plugin_core ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_state_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_state_plugin PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_state_plugin PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_state_plugin PRIVATE
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_state_plugin SYSTEM PRIVATE
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_state_plugin SHARED src/tesseract_state_plugin/plugin_init.cpp)
+#ament_target_dependencies(${PROJECT_NAME}_state_plugin PRIVATE ${PROJECT_NAME}_state_plugin_core ${Boost_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_state_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_state_plugin PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_state_plugin PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_state_plugin PRIVATE
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_state_plugin SYSTEM PRIVATE
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS})
 
-## Trajectory Display
-qt_wrap_cpp(${PROJECT_NAME}_trajectory_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_trajectory_plugin/tesseract_trajectory_display.h)
+### Trajectory Display
+#qt_wrap_cpp(${PROJECT_NAME}_trajectory_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_trajectory_plugin/tesseract_trajectory_display.h)
 
-add_library(${PROJECT_NAME}_trajectory_plugin_core SHARED src/tesseract_trajectory_plugin/tesseract_trajectory_display.cpp ${${PROJECT_NAME}_trajectory_plugin_core_cpp_MOCS})
-target_link_libraries(${PROJECT_NAME}_trajectory_plugin_core PUBLIC
-    ${PROJECT_NAME}_render_tools
-    ${PROJECT_NAME}_state_plugin_core
-    tesseract::tesseract
-    ${catkin_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${QT_LIBRARIES}
-    ${Boost_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_trajectory_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_trajectory_plugin_core PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_trajectory_plugin_core PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_trajectory_plugin_core PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_trajectory_plugin_core SYSTEM PUBLIC
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${QT_INCLUDE_DIR}
-    ${OGRE_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_trajectory_plugin_core SHARED src/tesseract_trajectory_plugin/tesseract_trajectory_display.cpp ${${PROJECT_NAME}_trajectory_plugin_core_cpp_MOCS})
+#ament_target_dependencies(${PROJECT_NAME}_trajectory_plugin_core PUBLIC
+#  ${PROJECT_NAME}_render_tools
+#  ${PROJECT_NAME}_state_plugin_core
+#  tesseract::tesseract
+#  ${OGRE_LIBRARIES}
+#  ${QT_LIBRARIES}
+#  ${Boost_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_trajectory_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_trajectory_plugin_core PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_trajectory_plugin_core PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_trajectory_plugin_core PUBLIC
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_trajectory_plugin_core SYSTEM PUBLIC
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS}
+#    ${QT_INCLUDE_DIR}
+#    ${OGRE_INCLUDE_DIRS}
+#    ${EIGEN3_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME}_trajectory_plugin SHARED src/tesseract_trajectory_plugin/plugin_init.cpp)
-target_link_libraries(${PROJECT_NAME}_trajectory_plugin PRIVATE
-    ${PROJECT_NAME}_trajectory_plugin_core
-    tesseract::tesseract
-    ${catkin_LIBRARIES}
-    ${Boost_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_trajectory_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_trajectory_plugin PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_trajectory_plugin PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_trajectory_plugin PRIVATE
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_trajectory_plugin SYSTEM PRIVATE
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_trajectory_plugin SHARED src/tesseract_trajectory_plugin/plugin_init.cpp)
+#ament_add_dependencies(${PROJECT_NAME}_trajectory_plugin PRIVATE
+#    ${PROJECT_NAME}_trajectory_plugin_core
+#    tesseract::tesseract
+#    ${Boost_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_trajectory_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_trajectory_plugin PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_trajectory_plugin PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_trajectory_plugin PRIVATE
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_trajectory_plugin SYSTEM PRIVATE
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS}
+#    ${EIGEN3_INCLUDE_DIRS})
 
-## Manipulation Display
-qt_wrap_cpp(${PROJECT_NAME}_manipulation_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_manipulation_plugin/tesseract_manipulation_display.h)
+### Manipulation Display
+#qt_wrap_cpp(${PROJECT_NAME}_manipulation_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_manipulation_plugin/tesseract_manipulation_display.h)
 
-add_library(${PROJECT_NAME}_manipulation_plugin_core SHARED src/tesseract_manipulation_plugin/tesseract_manipulation_display.cpp ${${PROJECT_NAME}_manipulation_plugin_core_cpp_MOCS})
-target_link_libraries(${PROJECT_NAME}_manipulation_plugin_core PUBLIC
-    ${PROJECT_NAME}_render_tools
-    tesseract::tesseract
-    ${catkin_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${QT_LIBRARIES}
-    ${Boost_LIBRARIES}
-    ${EIGEN3_INCLUDE_DIRS})
-target_compile_options(${PROJECT_NAME}_manipulation_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_manipulation_plugin_core PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_manipulation_plugin_core PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_manipulation_plugin_core PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_manipulation_plugin_core SYSTEM PUBLIC
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${QT_INCLUDE_DIR}
-    ${OGRE_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_manipulation_plugin_core SHARED src/tesseract_manipulation_plugin/tesseract_manipulation_display.cpp ${${PROJECT_NAME}_manipulation_plugin_core_cpp_MOCS})
+#ament_add_dependencies(${PROJECT_NAME}_manipulation_plugin_core PUBLIC
+#    ${PROJECT_NAME}_render_tools
+#    tesseract::tesseract
+#    ${OGRE_LIBRARIES}
+#    ${QT_LIBRARIES}
+#    ${Boost_LIBRARIES}
+#    ${EIGEN3_INCLUDE_DIRS})
+#target_compile_options(${PROJECT_NAME}_manipulation_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_manipulation_plugin_core PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_manipulation_plugin_core PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_manipulation_plugin_core PUBLIC
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_manipulation_plugin_core SYSTEM PUBLIC
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS}
+#    ${QT_INCLUDE_DIR}
+#    ${OGRE_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME}_manipulation_plugin SHARED src/tesseract_manipulation_plugin/plugin_init.cpp)
-target_link_libraries(${PROJECT_NAME}_manipulation_plugin PRIVATE
-    ${PROJECT_NAME}_manipulation_plugin_core
-    tesseract::tesseract
-    ${catkin_LIBRARIES}
-    ${Boost_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_manipulation_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_manipulation_plugin PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_manipulation_plugin PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_manipulation_plugin PRIVATE
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_manipulation_plugin SYSTEM PRIVATE
-    ${catkin_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
-    ${EIGEN3_INCLUDE_DIRS})
+#add_library(${PROJECT_NAME}_manipulation_plugin SHARED src/tesseract_manipulation_plugin/plugin_init.cpp)
+#ament_add_dependencies(${PROJECT_NAME}_manipulation_plugin PRIVATE
+#    ${PROJECT_NAME}_manipulation_plugin_core
+#    tesseract::tesseract
+#    ${Boost_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_manipulation_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_manipulation_plugin PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_manipulation_plugin PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_manipulation_plugin PRIVATE
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_manipulation_plugin SYSTEM PRIVATE
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>"
+#    ${Boost_INCLUDE_DIRS}
+#    ${EIGEN3_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME}_test src/test.cpp)
-target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}_trajectory_plugin_core ${catkin_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_test PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-if(CXX_FEATURE_FOUND EQUAL "-1")
-    target_compile_options(${PROJECT_NAME}_test PUBLIC -std=c++11)
-else()
-    target_compile_features(${PROJECT_NAME}_test PUBLIC cxx_std_11)
-endif()
-target_include_directories(${PROJECT_NAME}_test PRIVATE
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
-target_include_directories(${PROJECT_NAME}_test SYSTEM PRIVATE
-    ${catkin_INCLUDE_DIRS})
+#add_executable(${PROJECT_NAME}_test src/test.cpp)
+#ament_add_dependencies(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}_trajectory_plugin_core)
+#target_compile_options(${PROJECT_NAME}_test PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+#if(CXX_FEATURE_FOUND EQUAL "-1")
+#    target_compile_options(${PROJECT_NAME}_test PUBLIC -std=c++11)
+#else()
+#    target_compile_features(${PROJECT_NAME}_test PUBLIC cxx_std_11)
+#endif()
+#target_include_directories(${PROJECT_NAME}_test PRIVATE
+#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#    "$<INSTALL_INTERFACE:include>")
+#target_include_directories(${PROJECT_NAME}_test SYSTEM PRIVATE
+#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+#  "$<INSTALL_INTERFACE:include>")
 
 
 # Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_render_tools ${PROJECT_NAME}_state_plugin_core ${PROJECT_NAME}_state_plugin ${PROJECT_NAME}_trajectory_plugin_core ${PROJECT_NAME}_trajectory_plugin ${PROJECT_NAME}_manipulation_plugin_core ${PROJECT_NAME}_manipulation_plugin
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+install(TARGETS
+    ${PROJECT_NAME}_render_tools
+#    ${PROJECT_NAME}_state_plugin_core
+#    ${PROJECT_NAME}_state_plugin
+#    ${PROJECT_NAME}_trajectory_plugin_core
+#    ${PROJECT_NAME}_trajectory_plugin
+#    ${PROJECT_NAME}_manipulation_plugin_core
+#    ${PROJECT_NAME}_manipulation_plugin
+    EXPORT ${PACKAGE_NAME}-targets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+    INCLUDES DESTINATION include
 )
 
 # Mark cpp header files for installation
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/
+  DESTINATION include
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE
 )
 
 # Mark plugin XML files for installation
 install(FILES tesseract_rviz_state_plugin_description.xml tesseract_rviz_trajectory_plugin_description.xml tesseract_rviz_manipulation_plugin_description.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  DESTINATION share/${PROJECT_NAME}
 )
+#pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
+
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(message_generation REQUIRED)
+find_package(tesseract_msgs REQUIRED)
+find_package(tesseract_rosutils REQUIRED)
+find_package(rviz2 REQUIRED)
+find_package(pluginlib REQUIRED)
+find_package(interactive_markers REQUIRED)
+
+ament_export_dependencies(
+    ament_cmake
+    rclcpp
+    message_generation
+    rclcpp
+    tesseract_msgs
+    rviz2
+    pluginlib
+    interactive_markers)
+
+ament_export_interfaces(${PACKAGE_NAME}-targets)
+ament_package()

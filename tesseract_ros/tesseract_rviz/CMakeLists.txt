@@ -130,6 +130,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
 target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC tesseract::tesseract rviz_ogre_vendor::OgreMain rviz_ogre_vendor::OgreOverlay Qt5::Widgets)
 ament_target_dependencies(${PROJECT_NAME}_render_tools PUBLIC
   tesseract_msgs
+  tesseract_rosutils
 #  ${OGRE_LIBRARIES}
 #  ${QT_LIBRARIES}
 #  ${Boost_LIBRARIES}

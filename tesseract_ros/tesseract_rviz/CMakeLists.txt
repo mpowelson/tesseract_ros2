@@ -95,7 +95,7 @@ qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
   include/tesseract_rviz/render_tools/link_widget.h
   include/tesseract_rviz/render_tools/joint_widget.h
   include/tesseract_rviz/render_tools/joint_state_monitor_widget.h
-#  include/tesseract_rviz/render_tools/environment_widget.h
+  include/tesseract_rviz/render_tools/environment_widget.h
 #  include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
 #  include/tesseract_rviz/render_tools/manipulation_widget.h
 #  include/tesseract_rviz/interactive_marker/integer_action.h
@@ -109,7 +109,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   src/render_tools/link_widget.cpp
 #  src/render_tools/trajectory_panel.cpp
   src/render_tools/joint_state_monitor_widget.cpp
-#  src/render_tools/environment_widget.cpp
+  src/render_tools/environment_widget.cpp
 #  src/render_tools/trajectory_monitor_widget.cpp
 #  src/render_tools/manipulation_widget.cpp
 #  src/interactive_marker/integer_action.cpp
@@ -129,6 +129,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
 )
 target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC tesseract::tesseract rviz_ogre_vendor::OgreMain rviz_ogre_vendor::OgreOverlay Qt5::Widgets)
 ament_target_dependencies(${PROJECT_NAME}_render_tools PUBLIC
+  tesseract_msgs
 #  ${OGRE_LIBRARIES}
 #  ${QT_LIBRARIES}
 #  ${Boost_LIBRARIES}

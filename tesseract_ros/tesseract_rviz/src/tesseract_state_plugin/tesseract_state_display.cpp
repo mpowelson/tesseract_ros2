@@ -38,7 +38,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <ros/package.h>
 
 #include <eigen_conversions/eigen_msg.h>
-#include <rviz/display_context.h>
+#include <rviz_common/display_context.hpp>
 #include <rviz/frame_manager.h>
 #include <rviz/visualization_manager.h>
 

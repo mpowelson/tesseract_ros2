@@ -80,7 +80,7 @@ public:
   using Ptr = std::shared_ptr<TrajectoryMonitorWidget>;
   using ConstPtr = std::shared_ptr<const TrajectoryMonitorWidget>;
 
-  TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display);
+  TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display);
 
   virtual ~TrajectoryMonitorWidget();
 
@@ -114,7 +114,7 @@ protected:
   void createTrajectoryTrail();
 
   rviz_common::properties::Property* widget_;
-  rviz::Display* display_;
+  rviz_common::Display* display_;
   rviz_common::DisplayContext* context_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
@@ -140,7 +140,7 @@ protected:
   // Properties
   rviz_common::properties::Property* main_property_;
   rviz::EditableEnumProperty* state_display_time_property_;
-  rviz::RosTopicProperty* trajectory_topic_property_;
+  rviz_common::properties::RosTopicProperty* trajectory_topic_property_;
   rviz_common::properties::EnumProperty* display_mode_property_;
   rviz_common::properties::BoolProperty* interrupt_display_property_;
   rviz::IntProperty* trail_step_size_property_;

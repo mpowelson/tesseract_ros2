@@ -27,7 +27,7 @@
 #include <tesseract_rviz/markers/marker_selection_handler.h>
 #include <tesseract_rviz/markers/utils.h>
 
-#include <rviz/display_context.h>
+#include <rviz_common/display_context.hpp>
 #include <rviz/selection/selection_manager.h>
 
 #include <rviz/ogre_helpers/shape.h>

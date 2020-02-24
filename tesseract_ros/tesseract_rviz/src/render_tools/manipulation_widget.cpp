@@ -29,15 +29,15 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <boost/algorithm/string/replace.hpp>
 #include <functional>
 
-#include <rviz/display_context.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/string_property.h>
+#include <rviz_common/display_context.hpp>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
 
-#include <rviz/window_manager_interface.h>
+#include <rviz_common/window_manager_interface.hpp>
 
 #include <tesseract_rosutils/utils.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
@@ -52,7 +52,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget, rviz::Display* display)
+ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget, rviz_common::Display* display)
   : widget_(widget)
   , root_interactive_node_(nullptr)
   , display_(display)
@@ -75,7 +75,7 @@ ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget
 
   main_property_->setCaptions("Reset");
 
-  joint_state_topic_property_ = new rviz::RosTopicProperty("Topic",
+  joint_state_topic_property_ = new rviz_common::properties::RosTopicProperty("Topic",
                                                            "/tesseract/manipulation_joint_states",
                                                            ros::message_traits::datatype<sensor_msgs::JointState>(),
                                                            "The topic on which the sensor_msgs::JointState messages "
@@ -97,7 +97,7 @@ ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget
                                                             SLOT(changedCartesianManipulationEnabled()),
                                                             this);
 
-  cartesian_marker_scale_property_ = new rviz::properties::FloatProperty("Marker Scale",
+  cartesian_marker_scale_property_ = new rviz_common::properties::FloatProperty("Marker Scale",
                                                              0.5,
                                                              "Change the scale of the cartesian interactive marker",
                                                              cartesian_manipulation_property_,
@@ -112,7 +112,7 @@ ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget
                                                         SLOT(changedJointManipulationEnabled()),
                                                         this);
 
-  joint_marker_scale_property_ = new rviz::properties::FloatProperty("Marker Scale",
+  joint_marker_scale_property_ = new rviz_common::properties::FloatProperty("Marker Scale",
                                                          0.5,
                                                          "Change the scale of the joint interactive markers",
                                                          joint_manipulation_property_,
@@ -285,7 +285,7 @@ bool ManipulationWidget::changeManipulator(QString manipulator)
         joint_description = QString("Limits: [%1, %2]")
                                 .arg(QString("%1").arg(joint->limits->lower), QString("%1").arg(joint->limits->upper));
 
-      rviz::properties::FloatProperty* joint_value_property = new rviz::properties::FloatProperty(
+      rviz_common::properties::FloatProperty* joint_value_property = new rviz_common::properties::FloatProperty(
           QString::fromStdString(j), static_cast<float>(joints_[j]), joint_description, nullptr, nullptr, this);
       joint_value_property->setReadOnly(true);
       joint_values_property_->addChild(joint_value_property);

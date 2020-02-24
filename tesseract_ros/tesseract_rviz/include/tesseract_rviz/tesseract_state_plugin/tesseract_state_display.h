@@ -55,7 +55,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-class TesseractStateDisplay : public rviz::Display
+class TesseractStateDisplay : public rviz_common::Display
 {
   Q_OBJECT
 

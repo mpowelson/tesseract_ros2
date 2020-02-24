@@ -39,17 +39,17 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
-#include <rviz/display_context.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/color_property.h>
+#include <rviz_common/display_context.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
 #include <rviz/properties/editable_enum_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/properties/float_property.h>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
 #include <rviz/properties/int_property.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/string_property.h>
-#include <rviz/window_manager_interface.h>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/window_manager_interface.hpp>
 
 #include <tesseract_rosutils/utils.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
@@ -60,7 +60,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display)
+TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display)
   : widget_(widget)
   , display_(display)
   , tesseract_(nullptr)
@@ -75,7 +75,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Proper
   main_property_ = new rviz_common::properties::Property(
       "Trajectory Monitor", "", "Monitor a joint state topic and update the visualization", widget_, nullptr, this);
 
-  trajectory_topic_property_ = new rviz::RosTopicProperty("Topic",
+  trajectory_topic_property_ = new rviz_common::properties::RosTopicProperty("Topic",
                                                           "/tesseract/display_tesseract_trajectory",
                                                           ros::message_traits::datatype<tesseract_msgs::Trajectory>(),
                                                           "The topic on which the tesseract_msgs::Trajectory messages "

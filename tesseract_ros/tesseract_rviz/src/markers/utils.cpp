@@ -35,7 +35,7 @@
 #include <tesseract_rviz/interactive_marker/interactive_marker.h>
 #include <tesseract_rviz/interactive_marker/interactive_marker_control.h>
 
-#include <rviz/display_context.h>
+#include <rviz_common/display_context.hpp>
 #include <rviz/ogre_helpers/shape.h>
 
 #include <boost/make_shared.hpp>

@@ -41,15 +41,15 @@
 #include "tesseract_rviz/render_tools/octomap_render.h"
 #include "tesseract_rviz/render_tools/state_visualization.h"
 
-#include <rviz/display_context.h>
+#include <rviz_common/display_context.hpp>
 #include <rviz/frame_manager.h>
-#include <rviz/properties/bool_property.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/enum_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/property.h>
-#include <rviz/properties/ros_topic_property.h>
-#include <rviz/properties/string_property.h>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/enum_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/property.hpp>
+#include <rviz_common/properties/ros_topic_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
 #include <rviz/visualization_manager.h>
 #include <tf/transform_listener.h>
 
@@ -81,7 +81,7 @@ TesseractSceneDisplay::TesseractSceneDisplay(bool listen_to_planning_scene, bool
 
   if (listen_to_planning_scene)
     planning_scene_topic_property_ =
-        new rviz::RosTopicProperty("Planning Scene Topic",
+        new rviz_common::properties::RosTopicProperty("Planning Scene Topic",
                                    "move_group/monitored_planning_scene",
                                    ros::message_traits::datatype<moveit_msgs::PlanningScene>(),
                                    "The topic on which the moveit_msgs::PlanningScene messages are "
@@ -110,7 +110,7 @@ TesseractSceneDisplay::TesseractSceneDisplay(bool listen_to_planning_scene, bool
                                                    SLOT(changedSceneEnabled()),
                                                    this);
 
-  scene_alpha_property_ = new rviz::properties::FloatProperty("Scene Alpha",
+  scene_alpha_property_ = new rviz_common::properties::FloatProperty("Scene Alpha",
                                                   0.9f,
                                                   "Specifies the alpha for the scene geometry",
                                                   scene_category_,
@@ -144,7 +144,7 @@ TesseractSceneDisplay::TesseractSceneDisplay(bool listen_to_planning_scene, bool
   octree_coloring_property_->addOption("Z-Axis", OCTOMAP_Z_AXIS_COLOR);
   octree_coloring_property_->addOption("Cell Probability", OCTOMAP_PROBABLILTY_COLOR);
 
-  scene_display_time_property_ = new rviz::properties::FloatProperty("Scene Display Time",
+  scene_display_time_property_ = new rviz_common::properties::FloatProperty("Scene Display Time",
                                                          0.2f,
                                                          "The amount of wall-time to wait in between rendering "
                                                          "updates to the planning scene (if any)",
@@ -178,7 +178,7 @@ TesseractSceneDisplay::TesseractSceneDisplay(bool listen_to_planning_scene, bool
                                                                      SLOT(changedSceneRobotCollisionEnabled()),
                                                                      this);
 
-    robot_alpha_property_ = new rviz::properties::FloatProperty("Robot Alpha",
+    robot_alpha_property_ = new rviz_common::properties::FloatProperty("Robot Alpha",
                                                     1.0f,
                                                     "Specifies the alpha for the robot links",
                                                     robot_category_,

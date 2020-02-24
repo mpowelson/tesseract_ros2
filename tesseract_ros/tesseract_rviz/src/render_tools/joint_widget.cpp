@@ -35,13 +35,13 @@
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <OgreSceneNode.h>
 
-#include "rviz/load_resource.h"
-#include "rviz/ogre_helpers/arrow.h"
-#include "rviz/ogre_helpers/axes.h"
-#include "rviz/properties/float_property.h"
-#include "rviz/properties/quaternion_property.h"
-#include "rviz/properties/string_property.h"
-#include "rviz/properties/vector_property.h"
+#include "rviz_common/load_resource.hpp"
+#include "rviz_rendering/objects/arrow.hpp"
+#include "rviz_rendering/objects/axes.hpp"
+#include "rviz_common/properties/float_property.hpp"
+#include "rviz_common/properties/quaternion_property.hpp"
+#include "rviz_common/properties/string_property.hpp"
+#include "rviz_common/properties/vector_property.hpp"
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <tesseract_rviz/conversions.h>
@@ -59,7 +59,7 @@ JointWidget::JointWidget(VisualizationWidget* env, const tesseract_scene_graph::
   , axis_(nullptr)
 {
   joint_property_ = new rviz_common::properties::Property(name_.c_str(), true, "", nullptr, SLOT(updateChildVisibility()), this);
-  joint_property_->setIcon(rviz::loadPixmap("package://rviz/icons/classes/RobotJoint.png"));
+  joint_property_->setIcon(rviz_common::loadPixmap("package://rviz/icons/classes/RobotJoint.png"));
 
   details_ = new rviz_common::properties::Property("Details", QVariant(), "", nullptr);
 
@@ -103,13 +103,13 @@ JointWidget::JointWidget(VisualizationWidget* env, const tesseract_scene_graph::
   {
     // continuous joints have lower limit and upper limits of zero,
     // which means this isn't very useful but show it anyhow.
-    lower_limit_property_ = new rviz::properties::FloatProperty("Lower Limit",
+    lower_limit_property_ = new rviz_common::properties::FloatProperty("Lower Limit",
                                                     static_cast<float>(joint.limits->lower),
                                                     "Lower limit of this joint.  (Not editable)",
                                                     joint_property_);
     lower_limit_property_->setReadOnly(true);
 
-    upper_limit_property_ = new rviz::properties::FloatProperty("Upper Limit",
+    upper_limit_property_ = new rviz_common::properties::FloatProperty("Upper Limit",
                                                     static_cast<float>(joint.limits->upper),
                                                     "Upper limit of this joint.  (Not editable)",
                                                     joint_property_);

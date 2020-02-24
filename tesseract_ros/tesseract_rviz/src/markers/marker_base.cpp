@@ -43,7 +43,7 @@
 
 namespace tesseract_rviz
 {
-MarkerBase::MarkerBase(const std::string& ns, const int id, rviz::DisplayContext* context, Ogre::SceneNode* parent_node)
+MarkerBase::MarkerBase(const std::string& ns, const int id, rviz_common::DisplayContext* context, Ogre::SceneNode* parent_node)
   : ns_(ns), id_(id), context_(context), scene_node_(parent_node->createChildSceneNode())
 {
 }

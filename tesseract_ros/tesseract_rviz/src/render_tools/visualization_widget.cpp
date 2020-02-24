@@ -59,9 +59,9 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 namespace tesseract_rviz
 {
 VisualizationWidget::VisualizationWidget(Ogre::SceneNode* root_node,
-                                         rviz::DisplayContext* context,
+                                         rviz_common::DisplayContext* context,
                                          const std::string& name,
-                                         rviz::Property* parent_property)
+                                         rviz_common::properties::Property* parent_property)
   : scene_manager_(context->getSceneManager())
   , visible_(true)
   , visual_visible_(true)
@@ -86,28 +86,28 @@ VisualizationWidget::VisualizationWidget(Ogre::SceneNode* root_node,
   setCollisionVisible(collision_visible_);
   setAlpha(1.0f);
 
-  link_tree_ = new rviz::Property("Links", QVariant(), "", parent_property);
+  link_tree_ = new rviz_common::properties::Property("Links", QVariant(), "", parent_property);
   link_tree_->hide();  // hide until loaded
 
-  link_tree_style_ = new rviz::EnumProperty(
+  link_tree_style_ = new rviz_common::properties::EnumProperty(
       "Link Tree Style", "", "How the list of links is displayed", link_tree_, SLOT(changedLinkTreeStyle()), this);
   initLinkTreeStyle();
-  expand_tree_ = new rviz::BoolProperty(
+  expand_tree_ = new rviz_common::properties::BoolProperty(
       "Expand Tree", false, "Expand or collapse link tree", link_tree_, SLOT(changedExpandTree()), this);
-  expand_link_details_ = new rviz::BoolProperty("Expand Link Details",
+  expand_link_details_ = new rviz_common::properties::BoolProperty("Expand Link Details",
                                                 false,
                                                 "Expand link details (sub properties) to see all info for all links.",
                                                 link_tree_,
                                                 SLOT(changedExpandLinkDetails()),
                                                 this);
-  expand_joint_details_ = new rviz::BoolProperty("Expand Joint Details",
+  expand_joint_details_ = new rviz_common::properties::BoolProperty("Expand Joint Details",
                                                  false,
                                                  "Expand joint details (sub properties) "
                                                  "to see all info for all joints.",
                                                  link_tree_,
                                                  SLOT(changedExpandJointDetails()),
                                                  this);
-  enable_all_links_ = new rviz::BoolProperty(
+  enable_all_links_ = new rviz_common::properties::BoolProperty(
       "All Links Enabled", true, "Turn all links on or off.", link_tree_, SLOT(changedEnableAllLinks()), this);
 }
 

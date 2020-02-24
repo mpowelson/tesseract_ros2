@@ -78,12 +78,12 @@ public:
     END = 1
   };
 
-  ManipulationWidget(rviz::Property* widget, rviz::Display* display);
+  ManipulationWidget(rviz_common::properties::Property* widget, rviz::Display* display);
 
   virtual ~ManipulationWidget();
 
   void onInitialize(Ogre::SceneNode* root_node,
-                    rviz::DisplayContext* context,
+                    rviz_common::DisplayContext* context,
                     VisualizationWidget::Ptr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     ros::NodeHandle update_nh,
@@ -130,9 +130,9 @@ private Q_SLOTS:
 
 protected:
   Ogre::SceneNode* root_interactive_node_;
-  rviz::Property* widget_;
+  rviz_common::properties::Property* widget_;
   rviz::Display* display_;
-  rviz::DisplayContext* context_;
+  rviz_common::DisplayContext* context_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   ros::NodeHandle nh_;
@@ -157,14 +157,14 @@ protected:
   // Properties
   bool enabled_;
   ButtonProperty* main_property_;
-  rviz::EnumProperty* manipulator_property_;
+  rviz_common::properties::EnumProperty* manipulator_property_;
   rviz::RosTopicProperty* joint_state_topic_property_;
-  rviz::BoolProperty* cartesian_manipulation_property_;
-  rviz::BoolProperty* joint_manipulation_property_;
-  rviz::FloatProperty* cartesian_marker_scale_property_;
-  rviz::FloatProperty* joint_marker_scale_property_;
-  rviz::EnumProperty* tcp_property_;
-  rviz::Property* joint_values_property_;
+  rviz_common::properties::BoolProperty* cartesian_manipulation_property_;
+  rviz_common::properties::BoolProperty* joint_manipulation_property_;
+  rviz::properties::FloatProperty* cartesian_marker_scale_property_;
+  rviz::properties::FloatProperty* joint_marker_scale_property_;
+  rviz_common::properties::EnumProperty* tcp_property_;
+  rviz_common::properties::Property* joint_values_property_;
 };
 }  // namespace tesseract_rviz
 

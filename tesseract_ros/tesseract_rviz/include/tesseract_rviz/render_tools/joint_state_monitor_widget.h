@@ -17,7 +17,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <tesseract_rviz/render_tools/visualization_widget.h>
 
-namespace rviz
+namespace rviz_common::properties
 {
 class Property;
 class RosTopicProperty;
@@ -33,13 +33,13 @@ public:
   using Ptr = std::shared_ptr<JointStateMonitorWidget>;
   using ConstPtr = std::shared_ptr<const JointStateMonitorWidget>;
 
-  JointStateMonitorWidget(rviz::Property* widget, rviz::Display* display);
+  JointStateMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display);
 
   virtual ~JointStateMonitorWidget();
 
   void onInitialize(VisualizationWidget::Ptr visualization,
                     tesseract::Tesseract::Ptr tesseract,
-                    rviz::DisplayContext* context,
+                    rviz_common::DisplayContext* context,
                     ros::NodeHandle update_nh);
 
   void onEnable();
@@ -51,7 +51,7 @@ private Q_SLOTS:
   void changedJointStateTopic();
 
 protected:
-  rviz::Property* widget_;
+  rviz_common::properties::Property* widget_;
   rviz::Display* display_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
@@ -59,7 +59,7 @@ protected:
   ros::Subscriber joint_state_subscriber_;
   bool update_required_;
 
-  rviz::Property* main_property_;
+  rviz_common::properties::Property* main_property_;
   rviz::RosTopicProperty* joint_state_topic_property_;
 
   void newJointStateCallback(const sensor_msgs::JointStateConstPtr& joint_state);

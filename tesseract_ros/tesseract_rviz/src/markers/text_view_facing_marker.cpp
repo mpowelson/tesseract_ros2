@@ -44,7 +44,7 @@ namespace tesseract_rviz
 TextViewFacingMarker::TextViewFacingMarker(const std::string& ns,
                                            const int id,
                                            const std::string& caption,
-                                           rviz::DisplayContext* context,
+                                           rviz_common::DisplayContext* context,
                                            Ogre::SceneNode* parent_node)
 
   : MarkerBase(ns, id, context, parent_node), text_(nullptr)

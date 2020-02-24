@@ -60,7 +60,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz::Property* widget, rviz::Display* display)
+TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display)
   : widget_(widget)
   , display_(display)
   , tesseract_(nullptr)
@@ -72,7 +72,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz::Property* widget, rviz::D
   , trajectory_slider_dock_panel_(nullptr)
   , cached_visible_(false)
 {
-  main_property_ = new rviz::Property(
+  main_property_ = new rviz_common::properties::Property(
       "Trajectory Monitor", "", "Monitor a joint state topic and update the visualization", widget_, nullptr, this);
 
   trajectory_topic_property_ = new rviz::RosTopicProperty("Topic",
@@ -84,7 +84,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz::Property* widget, rviz::D
                                                           SLOT(changedTrajectoryTopic()),
                                                           this);
 
-  display_mode_property_ = new rviz::EnumProperty(
+  display_mode_property_ = new rviz_common::properties::EnumProperty(
       "Display Mode", "Loop", "How to display the trajectoy.", main_property_, SLOT(changedDisplayMode()), this);
   display_mode_property_->addOptionStd("Single", 0);
   display_mode_property_->addOptionStd("Loop", 1);
@@ -111,7 +111,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz::Property* widget, rviz::D
                                                     this);
   trail_step_size_property_->setMin(1);
 
-  interrupt_display_property_ = new rviz::BoolProperty("Interrupt Display",
+  interrupt_display_property_ = new rviz_common::properties::BoolProperty("Interrupt Display",
                                                        false,
                                                        "Immediately show newly planned trajectory, "
                                                        "interrupting the currently displayed one.",
@@ -130,7 +130,7 @@ TrajectoryMonitorWidget::~TrajectoryMonitorWidget()
 
 void TrajectoryMonitorWidget::onInitialize(VisualizationWidget::Ptr visualization,
                                            tesseract::Tesseract::Ptr tesseract,
-                                           rviz::DisplayContext* context,
+                                           rviz_common::DisplayContext* context,
                                            ros::NodeHandle update_nh)
 {
   // Save pointers for later use

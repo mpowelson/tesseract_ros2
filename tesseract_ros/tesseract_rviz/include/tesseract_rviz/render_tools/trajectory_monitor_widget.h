@@ -80,13 +80,13 @@ public:
   using Ptr = std::shared_ptr<TrajectoryMonitorWidget>;
   using ConstPtr = std::shared_ptr<const TrajectoryMonitorWidget>;
 
-  TrajectoryMonitorWidget(rviz::Property* widget, rviz::Display* display);
+  TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display);
 
   virtual ~TrajectoryMonitorWidget();
 
   void onInitialize(VisualizationWidget::Ptr visualization,
                     tesseract::Tesseract::Ptr tesseract,
-                    rviz::DisplayContext* context,
+                    rviz_common::DisplayContext* context,
                     ros::NodeHandle update_nh);
 
   void onEnable();
@@ -113,9 +113,9 @@ protected:
   void clearTrajectoryTrail();
   void createTrajectoryTrail();
 
-  rviz::Property* widget_;
+  rviz_common::properties::Property* widget_;
   rviz::Display* display_;
-  rviz::DisplayContext* context_;
+  rviz_common::DisplayContext* context_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   ros::NodeHandle nh_;
@@ -138,11 +138,11 @@ protected:
   size_t num_trajectory_waypoints_;
 
   // Properties
-  rviz::Property* main_property_;
+  rviz_common::properties::Property* main_property_;
   rviz::EditableEnumProperty* state_display_time_property_;
   rviz::RosTopicProperty* trajectory_topic_property_;
-  rviz::EnumProperty* display_mode_property_;
-  rviz::BoolProperty* interrupt_display_property_;
+  rviz_common::properties::EnumProperty* display_mode_property_;
+  rviz_common::properties::BoolProperty* interrupt_display_property_;
   rviz::IntProperty* trail_step_size_property_;
 };
 

@@ -39,7 +39,7 @@ namespace tesseract_rviz
 {
 CylinderMarker::CylinderMarker(const std::string& ns,
                                const int id,
-                               rviz::DisplayContext* context,
+                               rviz_common::DisplayContext* context,
                                Ogre::SceneNode* parent_node,
                                float radius,
                                float height)
@@ -49,7 +49,7 @@ CylinderMarker::CylinderMarker(const std::string& ns,
   , radius_(radius)
   , height_(height)
 {
-  shape_ = new rviz::Shape(rviz::Shape::Cylinder, context_->getSceneManager(), scene_node_);
+  shape_ = new rviz_rendering::Shape(rviz_rendering::Shape::Cylinder, context_->getSceneManager(), scene_node_);
   setScale(scale_);
 
   handler_.reset(new MarkerSelectionHandler(this, MarkerID(ns_, id_), context_));

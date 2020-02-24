@@ -52,7 +52,7 @@ public:
   TextViewFacingMarker(const std::string& ns,
                        const int id,
                        const std::string& caption,
-                       rviz::DisplayContext* context,
+                       rviz_common::DisplayContext* context,
                        Ogre::SceneNode* parent_node);
 
   ~TextViewFacingMarker() override;

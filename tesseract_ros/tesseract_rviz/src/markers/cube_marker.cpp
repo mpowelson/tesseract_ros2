@@ -39,12 +39,12 @@ namespace tesseract_rviz
 {
 CubeMarker::CubeMarker(const std::string& ns,
                        const int id,
-                       rviz::DisplayContext* context,
+                       rviz_common::DisplayContext* context,
                        Ogre::SceneNode* parent_node,
                        float size)
   : MarkerBase(ns, id, context, parent_node), shape_(nullptr), scale_(Ogre::Vector3(1, 1, 1)), size_(size)
 {
-  shape_ = new rviz::Shape(rviz::Shape::Cube, context_->getSceneManager(), scene_node_);
+  shape_ = new rviz_rendering::Shape(rviz_rendering::Shape::Cube, context_->getSceneManager(), scene_node_);
   setScale(scale_);
 
   handler_.reset(new MarkerSelectionHandler(this, MarkerID(ns_, id_), context_));

@@ -103,7 +103,7 @@ public:
 
   InteractiveMarkerControl(const std::string& name,
                            const std::string& description,
-                           rviz::DisplayContext* context,
+                           rviz_common::DisplayContext* context,
                            Ogre::SceneNode* reference_node,
                            InteractiveMarker* parent,
                            const InteractiveMode interactive_mode,
@@ -222,7 +222,7 @@ public:
    * @brief Get the display context
    * @return Display context
    */
-  rviz::DisplayContext* getDisplayContext() { return context_; }
+  rviz_common::DisplayContext* getDisplayContext() { return context_; }
 
   /**
    * @brief Get the size of the ineractive control
@@ -371,7 +371,7 @@ protected:
 
   rviz::ViewportMouseEvent dragging_in_place_event_;
 
-  rviz::DisplayContext* context_;
+  rviz_common::DisplayContext* context_;
 
   rviz::CollObjectHandle coll_object_handle_;
 

@@ -52,7 +52,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-ManipulationWidget::ManipulationWidget(rviz::Property* widget, rviz::Display* display)
+ManipulationWidget::ManipulationWidget(rviz_common::properties::Property* widget, rviz::Display* display)
   : widget_(widget)
   , root_interactive_node_(nullptr)
   , display_(display)
@@ -84,20 +84,20 @@ ManipulationWidget::ManipulationWidget(rviz::Property* widget, rviz::Display* di
                                                            SLOT(changedJointStateTopic()),
                                                            this);
 
-  manipulator_property_ = new rviz::EnumProperty(
+  manipulator_property_ = new rviz_common::properties::EnumProperty(
       "Manipulator", "", "The manipulator to move around.", main_property_, SLOT(changedManipulator()), this);
 
   tcp_property_ =
-      new rviz::EnumProperty("TCP Link", "", "The tool center point link", main_property_, SLOT(changedTCP()), this);
+      new rviz_common::properties::EnumProperty("TCP Link", "", "The tool center point link", main_property_, SLOT(changedTCP()), this);
 
-  cartesian_manipulation_property_ = new rviz::BoolProperty("Cartesian Manipulation",
+  cartesian_manipulation_property_ = new rviz_common::properties::BoolProperty("Cartesian Manipulation",
                                                             true,
                                                             "Tool for cartesian manipulation of kinematics objects",
                                                             main_property_,
                                                             SLOT(changedCartesianManipulationEnabled()),
                                                             this);
 
-  cartesian_marker_scale_property_ = new rviz::FloatProperty("Marker Scale",
+  cartesian_marker_scale_property_ = new rviz::properties::FloatProperty("Marker Scale",
                                                              0.5,
                                                              "Change the scale of the cartesian interactive marker",
                                                              cartesian_manipulation_property_,
@@ -105,14 +105,14 @@ ManipulationWidget::ManipulationWidget(rviz::Property* widget, rviz::Display* di
                                                              this);
   cartesian_marker_scale_property_->setMin(0.001f);
 
-  joint_manipulation_property_ = new rviz::BoolProperty("Joint Manipulation",
+  joint_manipulation_property_ = new rviz_common::properties::BoolProperty("Joint Manipulation",
                                                         true,
                                                         "Tool for joint manipulation of kinematics objects",
                                                         main_property_,
                                                         SLOT(changedJointManipulationEnabled()),
                                                         this);
 
-  joint_marker_scale_property_ = new rviz::FloatProperty("Marker Scale",
+  joint_marker_scale_property_ = new rviz::properties::FloatProperty("Marker Scale",
                                                          0.5,
                                                          "Change the scale of the joint interactive markers",
                                                          joint_manipulation_property_,
@@ -121,7 +121,7 @@ ManipulationWidget::ManipulationWidget(rviz::Property* widget, rviz::Display* di
   joint_marker_scale_property_->setMin(0.001f);
 
   joint_values_property_ =
-      new rviz::Property("Joint Values", "", "Shows current joint values", main_property_, nullptr, this);
+      new rviz_common::properties::Property("Joint Values", "", "Shows current joint values", main_property_, nullptr, this);
 
   joint_values_property_->setReadOnly(true);
 }
@@ -136,7 +136,7 @@ ManipulationWidget::~ManipulationWidget()
 }
 
 void ManipulationWidget::onInitialize(Ogre::SceneNode* root_node,
-                                      rviz::DisplayContext* context,
+                                      rviz_common::DisplayContext* context,
                                       VisualizationWidget::Ptr visualization,
                                       tesseract::Tesseract::Ptr tesseract,
                                       ros::NodeHandle update_nh,
@@ -285,7 +285,7 @@ bool ManipulationWidget::changeManipulator(QString manipulator)
         joint_description = QString("Limits: [%1, %2]")
                                 .arg(QString("%1").arg(joint->limits->lower), QString("%1").arg(joint->limits->upper));
 
-      rviz::FloatProperty* joint_value_property = new rviz::FloatProperty(
+      rviz::properties::FloatProperty* joint_value_property = new rviz::properties::FloatProperty(
           QString::fromStdString(j), static_cast<float>(joints_[j]), joint_description, nullptr, nullptr, this);
       joint_value_property->setReadOnly(true);
       joint_values_property_->addChild(joint_value_property);

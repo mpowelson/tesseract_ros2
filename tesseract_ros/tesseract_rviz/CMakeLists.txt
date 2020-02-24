@@ -5,6 +5,7 @@ add_compile_options(-std=c++11 -Wall -Wextra)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(console_bridge REQUIRED)
 #find_package(message_generation REQUIRED)
 find_package(tesseract_msgs REQUIRED)
 find_package(tesseract_rosutils REQUIRED)
@@ -91,7 +92,7 @@ include_directories(
 qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
 #  include/tesseract_rviz/render_tools/trajectory_panel.h
 #  include/tesseract_rviz/render_tools/visualization_widget.h
-#  include/tesseract_rviz/render_tools/link_widget.h
+  include/tesseract_rviz/render_tools/link_widget.h
 #  include/tesseract_rviz/render_tools/joint_widget.h
 #  include/tesseract_rviz/render_tools/joint_state_monitor_widget.h
 #  include/tesseract_rviz/render_tools/environment_widget.h
@@ -105,7 +106,7 @@ qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
 add_library(${PROJECT_NAME}_render_tools SHARED
 #  src/render_tools/visualization_widget.cpp
 #  src/render_tools/joint_widget.cpp
-#  src/render_tools/link_widget.cpp
+  src/render_tools/link_widget.cpp
 #  src/render_tools/trajectory_panel.cpp
 #  src/render_tools/joint_state_monitor_widget.cpp
 #  src/render_tools/environment_widget.cpp
@@ -145,7 +146,7 @@ target_include_directories(${PROJECT_NAME}_render_tools PUBLIC
 target_include_directories(${PROJECT_NAME}_render_tools SYSTEM PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
-    ${Boost_INCLUDE_DIRS}
+#    ${Boost_INCLUDE_DIRS}
 #    ${QT_INCLUDE_DIR}
 #    ${OGRE_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS})

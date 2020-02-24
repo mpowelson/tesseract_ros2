@@ -11,10 +11,10 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-JointStateMonitorWidget::JointStateMonitorWidget(rviz::Property* widget, rviz::Display* display)
+JointStateMonitorWidget::JointStateMonitorWidget(rviz_common::properties::Property* widget, rviz::Display* display)
   : widget_(widget), display_(display), visualization_(nullptr), tesseract_(nullptr), update_required_(false)
 {
-  main_property_ = new rviz::Property(
+  main_property_ = new rviz_common::properties::Property(
       "Joint State Monitor", "", "Monitor a joint state topic and update the visualization", widget_, nullptr, this);
 
   joint_state_topic_property_ = new rviz::RosTopicProperty("Topic",
@@ -31,7 +31,7 @@ JointStateMonitorWidget::~JointStateMonitorWidget() { joint_state_subscriber_.sh
 
 void JointStateMonitorWidget::onInitialize(VisualizationWidget::Ptr visualization,
                                            tesseract::Tesseract::Ptr tesseract,
-                                           rviz::DisplayContext* context,
+                                           rviz_common::DisplayContext* context,
                                            ros::NodeHandle update_nh)
 {
   visualization_ = std::move(visualization);

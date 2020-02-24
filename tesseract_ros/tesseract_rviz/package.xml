@@ -17,6 +17,7 @@
   <depend>tesseract</depend>
   <depend>tesseract_rosutils</depend>
   <depend>Qt5</depend>
+  <depend>libconsole-bridge</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

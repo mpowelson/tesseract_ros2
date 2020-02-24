@@ -32,7 +32,7 @@
 #include <string>
 #endif
 
-namespace rviz
+namespace rviz_common
 {
 class Shape;
 }
@@ -47,7 +47,7 @@ public:
 
   CylinderMarker(const std::string& ns,
                  const int id,
-                 rviz::DisplayContext* context,
+                 rviz_common::DisplayContext* context,
                  Ogre::SceneNode* parent_node,
                  float radius = 1,
                  float height = 2);
@@ -67,7 +67,7 @@ public:
   std::set<Ogre::MaterialPtr> getMaterials() override;
 
 protected:
-  rviz::Shape* shape_;
+  rviz_rendering::Shape* shape_;
   Ogre::Vector3 scale_;
   float radius_;
   float height_;

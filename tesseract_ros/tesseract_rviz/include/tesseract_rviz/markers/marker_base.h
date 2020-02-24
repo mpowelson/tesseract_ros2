@@ -45,7 +45,7 @@ class Quaternion;
 class Entity;
 }  // namespace Ogre
 
-namespace rviz
+namespace rviz_common
 {
 class DisplayContext;
 }
@@ -61,7 +61,7 @@ public:
   using Ptr = boost::shared_ptr<MarkerBase>;
   using ConstPtr = boost::shared_ptr<const MarkerBase>;
 
-  MarkerBase(const std::string& ns, const int id, rviz::DisplayContext* context, Ogre::SceneNode* parent_node);
+  MarkerBase(const std::string& ns, const int id, rviz_common::DisplayContext* context, Ogre::SceneNode* parent_node);
   virtual ~MarkerBase();
 
   MarkerID getID() { return MarkerID(ns_, id_); }
@@ -95,7 +95,7 @@ protected:
 
   int id_;
 
-  rviz::DisplayContext* context_;
+  rviz_common::DisplayContext* context_;
 
   Ogre::SceneNode* scene_node_;
 

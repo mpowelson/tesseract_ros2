@@ -67,7 +67,7 @@ namespace tesseract_rviz
 {
 InteractiveMarkerControl::InteractiveMarkerControl(const std::string& name,
                                                    const std::string& description,
-                                                   rviz::DisplayContext* context,
+                                                   rviz_common::DisplayContext* context,
                                                    Ogre::SceneNode* reference_node,
                                                    InteractiveMarker* parent,
                                                    const InteractiveMode interactive_mode,

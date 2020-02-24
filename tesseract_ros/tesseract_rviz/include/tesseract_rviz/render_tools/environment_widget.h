@@ -22,7 +22,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #endif
 #include <tesseract_rviz/render_tools/visualization_widget.h>
 
-namespace rviz
+namespace rviz_common::properties
 {
 class Property;
 class RosTopicProperty;
@@ -40,13 +40,13 @@ public:
   using Ptr = std::shared_ptr<EnvironmentWidget>;
   using ConstPtr = std::shared_ptr<const EnvironmentWidget>;
 
-  EnvironmentWidget(rviz::Property* widget, rviz::Display* display, const std::string& widget_ns = std::string());
+  EnvironmentWidget(rviz_common::properties::Property* widget, rviz::Display* display, const std::string& widget_ns = std::string());
 
   virtual ~EnvironmentWidget();
 
   void onInitialize(VisualizationWidget::Ptr visualization,
                     tesseract::Tesseract::Ptr tesseract,
-                    rviz::DisplayContext* context,
+                    rviz_common::DisplayContext* context,
                     ros::NodeHandle update_nh,
                     bool update_state,
                     QString tesseract_state_topic = "");
@@ -71,7 +71,7 @@ private Q_SLOTS:
   void changedAllLinks();
 
 protected:
-  rviz::Property* widget_;
+  rviz_common::properties::Property* widget_;
   rviz::Display* display_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
@@ -108,16 +108,16 @@ protected:
    * visualization */
   bool applyEnvironmentCommands(const std::vector<tesseract_msgs::EnvironmentCommand>& commands);
 
-  rviz::Property* main_property_;
-  rviz::StringProperty* urdf_description_property_;
-  rviz::StringProperty* environment_namespace_property_;
+  rviz_common::properties::Property* main_property_;
+  rviz_common::properties::StringProperty* urdf_description_property_;
+  rviz_common::properties::StringProperty* environment_namespace_property_;
   rviz::RosTopicProperty* tesseract_state_topic_property_;
-  rviz::StringProperty* root_link_name_property_;
-  rviz::FloatProperty* alpha_property_;
-  rviz::BoolProperty* enable_link_highlight_;
-  rviz::BoolProperty* enable_visual_visible_;
-  rviz::BoolProperty* enable_collision_visible_;
-  rviz::BoolProperty* show_all_links_;
+  rviz_common::properties::StringProperty* root_link_name_property_;
+  rviz::properties::FloatProperty* alpha_property_;
+  rviz_common::properties::BoolProperty* enable_link_highlight_;
+  rviz_common::properties::BoolProperty* enable_visual_visible_;
+  rviz_common::properties::BoolProperty* enable_collision_visible_;
+  rviz_common::properties::BoolProperty* show_all_links_;
 
 private:
   /** @brief Keeps track of how many EnvironmentWidgets have been created for the default namespace */

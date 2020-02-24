@@ -60,7 +60,7 @@ InteractiveMarker::InteractiveMarker(const std::string& name,
                                      const std::string& description,
                                      const std::string& reference_frame,
                                      Ogre::SceneNode* scene_node,
-                                     rviz::DisplayContext* context,
+                                     rviz_common::DisplayContext* context,
                                      const bool reference_frame_locked,
                                      const float scale)
   : visible_(true)
@@ -81,7 +81,7 @@ InteractiveMarker::InteractiveMarker(const std::string& name,
   , orientation_(scene_node->getOrientation())
   , reference_node_(scene_node->createChildSceneNode())
 {
-  axes_ = new rviz::Axes(context->getSceneManager(), reference_node_, 1, 0.05f);
+  axes_ = new rviz_rendering::Axes(context->getSceneManager(), reference_node_, 1, 0.05f);
 
   axes_->setPosition(position_);
   axes_->setOrientation(orientation_);

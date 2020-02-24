@@ -71,7 +71,7 @@ public:
                     const std::string& description,
                     const std::string& reference_frame,
                     Ogre::SceneNode* scene_node,
-                    rviz::DisplayContext* context,
+                    rviz_common::DisplayContext* context,
                     const bool reference_frame_locked,
                     const float scale = 1);
   virtual ~InteractiveMarker();
@@ -200,7 +200,7 @@ protected:
   void updateVisualAidsVisibility();
 
   bool visible_;
-  rviz::DisplayContext* context_;
+  rviz_common::DisplayContext* context_;
 
   // pose of parent coordinate frame
   std::string reference_frame_;
@@ -252,7 +252,7 @@ protected:
 
   // visual aids
 
-  rviz::Axes* axes_;
+  rviz_rendering::Axes* axes_;
 
   InteractiveMarkerControl::Ptr description_control_;
 

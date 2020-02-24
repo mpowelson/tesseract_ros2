@@ -23,7 +23,7 @@ namespace tesseract_rviz
 const std::string DEFAULT_GET_ENVIRONMENT_CHANGES_SERVICE = "get_tesseract_changes_rviz";
 const std::string DEFAULT_MODIFY_ENVIRONMENT_SERVICE = "modify_tesseract_rviz";
 
-EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* display, const std::string& widget_ns)
+EnvironmentWidget::EnvironmentWidget(rviz_common::properties::Property* widget, rviz::Display* display, const std::string& widget_ns)
   : widget_(widget)
   , display_(display)
   , visualization_(nullptr)
@@ -43,9 +43,9 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
     widget_ns_ = widget_ns;
   }
 
-  main_property_ = new rviz::Property("Environment", "", "Tesseract Environment", widget_, nullptr, this);
+  main_property_ = new rviz_common::properties::Property("Environment", "", "Tesseract Environment", widget_, nullptr, this);
 
-  urdf_description_property_ = new rviz::StringProperty("URDF Description",
+  urdf_description_property_ = new rviz_common::properties::StringProperty("URDF Description",
                                                         "robot_description",
                                                         "The name of the ROS parameter where the URDF for the robot is "
                                                         "loaded",
@@ -53,7 +53,7 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
                                                         SLOT(changedURDFDescription()),
                                                         this);
 
-  environment_namespace_property_ = new rviz::StringProperty("Interface Namespace",
+  environment_namespace_property_ = new rviz_common::properties::StringProperty("Interface Namespace",
                                                              QString::fromUtf8(widget_ns_.c_str()),
                                                              "The namespace used for the service interface associated "
                                                              "with the environment",
@@ -70,7 +70,7 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
                                  SLOT(changedTesseractStateTopic()),
                                  this);
 
-  root_link_name_property_ = new rviz::StringProperty("Root Link",
+  root_link_name_property_ = new rviz_common::properties::StringProperty("Root Link",
                                                       "",
                                                       "Shows the name of the root link for the urdf",
                                                       main_property_,
@@ -78,7 +78,7 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
                                                       this);
   root_link_name_property_->setReadOnly(true);
 
-  alpha_property_ = new rviz::FloatProperty("Alpha",
+  alpha_property_ = new rviz::properties::FloatProperty("Alpha",
                                             1.0f,
                                             "Specifies the alpha for the links with geometry",
                                             main_property_,
@@ -87,20 +87,20 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
   alpha_property_->setMin(0.0);
   alpha_property_->setMax(1.0);
 
-  enable_link_highlight_ = new rviz::BoolProperty("Show Highlights",
+  enable_link_highlight_ = new rviz_common::properties::BoolProperty("Show Highlights",
                                                   true,
                                                   "Specifies whether link highlighting is enabled",
                                                   main_property_,
                                                   SLOT(changedEnableLinkHighlight()),
                                                   this);
-  enable_visual_visible_ = new rviz::BoolProperty("Show Visual",
+  enable_visual_visible_ = new rviz_common::properties::BoolProperty("Show Visual",
                                                   true,
                                                   "Whether to display the visual representation of the environment.",
                                                   main_property_,
                                                   SLOT(changedEnableVisualVisible()),
                                                   this);
 
-  enable_collision_visible_ = new rviz::BoolProperty("Show Collision",
+  enable_collision_visible_ = new rviz_common::properties::BoolProperty("Show Collision",
                                                      false,
                                                      "Whether to display the collision "
                                                      "representation of the environment.",
@@ -108,7 +108,7 @@ EnvironmentWidget::EnvironmentWidget(rviz::Property* widget, rviz::Display* disp
                                                      SLOT(changedEnableCollisionVisible()),
                                                      this);
 
-  show_all_links_ = new rviz::BoolProperty(
+  show_all_links_ = new rviz_common::properties::BoolProperty(
       "Show All Links", true, "Toggle all links visibility on or off.", main_property_, SLOT(changedAllLinks()), this);
 }
 
@@ -116,7 +116,7 @@ EnvironmentWidget::~EnvironmentWidget() {}
 
 void EnvironmentWidget::onInitialize(VisualizationWidget::Ptr visualization,
                                      tesseract::Tesseract::Ptr tesseract,
-                                     rviz::DisplayContext* context,
+                                     rviz_common::DisplayContext* context,
                                      ros::NodeHandle update_nh,
                                      bool update_state,
                                      QString tesseract_state_topic)
@@ -173,12 +173,12 @@ void EnvironmentWidget::onReset() { load_tesseract_ = true; }
 
 void EnvironmentWidget::changedAllLinks()
 {
-  rviz::Property* links_prop = widget_->subProp("Links");
+  rviz_common::properties::Property* links_prop = widget_->subProp("Links");
   QVariant value(show_all_links_->getBool());
 
   for (int i = 0; i < links_prop->numChildren(); ++i)
   {
-    rviz::Property* link_prop = links_prop->childAt(i);
+    rviz_common::properties::Property* link_prop = links_prop->childAt(i);
     link_prop->setValue(value);
   }
 }

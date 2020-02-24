@@ -248,16 +248,20 @@ void EnvironmentWidget::changedURDFDescription()
 
 void EnvironmentWidget::changedEnvironmentNamespace()
 {
+  using std::placeholders::_1;
+  using std::placeholders::_2;
+  using std::placeholders::_3;
+
   // Need to kill services and relaunch with new name
   modify_environment_server_.reset();
   get_environment_changes_server_.reset();
 
   widget_ns_ = environment_namespace_property_->getStdString();
-//  modify_environment_server_ = nh_.advertiseService(
-//      widget_ns_ + DEFAULT_MODIFY_ENVIRONMENT_SERVICE, &EnvironmentWidget::modifyEnvironmentCallback, this);
+  modify_environment_server_ = node_->create_service<tesseract_msgs::srv::ModifyEnvironment>(
+      widget_ns_ + DEFAULT_MODIFY_ENVIRONMENT_SERVICE, std::bind(&EnvironmentWidget::modifyEnvironmentCallback, this, _1, _2, _3));
 
-//  get_environment_changes_server_ = nh_.advertiseService(
-//      widget_ns_ + DEFAULT_GET_ENVIRONMENT_CHANGES_SERVICE, &EnvironmentWidget::getEnvironmentChangesCallback, this);
+  get_environment_changes_server_ = node_->create_service<tesseract_msgs::srv::GetEnvironmentChanges>(
+      widget_ns_ + DEFAULT_GET_ENVIRONMENT_CHANGES_SERVICE, std::bind(&EnvironmentWidget::getEnvironmentChangesCallback, this, _1, _2, _3));
 }
 
 void EnvironmentWidget::changedRootLinkName() {}
@@ -460,42 +464,44 @@ bool EnvironmentWidget::applyEnvironmentCommands(const std::vector<tesseract_msg
   return true;*/
 }
 
-//bool EnvironmentWidget::modifyEnvironmentCallback(tesseract_msgs::ModifyEnvironmentRequest& req,
-//                                                  tesseract_msgs::ModifyEnvironmentResponse& res)
-//{
-//  if (!tesseract_->getEnvironment() || req.id != tesseract_->getEnvironment()->getName() ||
-//      req.revision != tesseract_->getEnvironment()->getRevision())
-//    return false;
-
-//  return applyEnvironmentCommands(req.commands);
-//}
-
-bool EnvironmentWidget::getEnvironmentChangesCallback(tesseract_msgs::srv::GetEnvironmentChanges_Request& req,
-                                                      tesseract_msgs::srv::GetEnvironmentChanges_Response& res)
+bool EnvironmentWidget::modifyEnvironmentCallback(const std::shared_ptr<rmw_request_id_t> request_header,
+tesseract_msgs::srv::ModifyEnvironment::Request::SharedPtr req,
+                           tesseract_msgs::srv::ModifyEnvironment::Response::SharedPtr res)
 {
-//  if (req.revision > tesseract_->getEnvironment()->getRevision())
-//  {
-//    res.success = false;
-//    return false;
-//  }
+  if (!tesseract_->getEnvironment() || req->id != tesseract_->getEnvironment()->getName() ||
+      req->revision != tesseract_->getEnvironment()->getRevision())
+    return false;
 
-//  res.id = tesseract_->getEnvironment()->getName();
-//  res.revision = tesseract_->getEnvironment()->getRevision();
-//  const tesseract_environment::Commands& commands = tesseract_->getEnvironment()->getCommandHistory();
-//  for (int i = (req.revision - 1); i < commands.size(); ++i)
+  return applyEnvironmentCommands(req->commands);
+}
+
+bool EnvironmentWidget::getEnvironmentChangesCallback(const std::shared_ptr<rmw_request_id_t> request_header,
+                                                      tesseract_msgs::srv::GetEnvironmentChanges::Request::SharedPtr req,
+                                                      tesseract_msgs::srv::GetEnvironmentChanges::Response::SharedPtr res)
+{
+  if (req->revision > tesseract_->getEnvironment()->getRevision())
+  {
+    res->success = false;
+    return false;
+  }
+
+  res->id = tesseract_->getEnvironment()->getName();
+  res->revision = tesseract_->getEnvironment()->getRevision();
+  const tesseract_environment::Commands& commands = tesseract_->getEnvironment()->getCommandHistory();
+//  for (int i = (req->revision - 1); i < commands.size(); ++i)
 //  {
 //    tesseract_msgs::msg::EnvironmentCommand command_msg;
 //    if (!tesseract_rosutils::toMsg(command_msg, *(commands[i])))
 //    {
-//      res.success = false;
+//      res->success = false;
 //      return false;
 //    }
 
-//    res.commands.push_back(command_msg);
+//    res->commands.push_back(command_msg);
 //  }
 
-//  res.success = true;
-//  return res.success;
+  res->success = true;
+  return res->success;
 }
 
 void EnvironmentWidget::changedTesseractStateTopic()

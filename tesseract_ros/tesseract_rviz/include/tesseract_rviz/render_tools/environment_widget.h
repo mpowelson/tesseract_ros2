@@ -95,12 +95,14 @@ protected:
   void newTesseractStateCallback(const tesseract_msgs::msg::TesseractState::ConstSharedPtr state);
 
   /** @brief Callback for modifying the environment via service request */
-//  bool modifyEnvironmentCallback(tesseract_msgs::srv::ModifyEnvironmentRequest& req,
-//                                 tesseract_msgs::srv::ModifyEnvironmentResponse& res);
+  bool modifyEnvironmentCallback(const std::shared_ptr<rmw_request_id_t> request_header,
+      tesseract_msgs::srv::ModifyEnvironment::Request::SharedPtr req,
+                                 tesseract_msgs::srv::ModifyEnvironment::Response::SharedPtr res);
 
   /** @brief Callback for get the environment changes via service request */
-  bool getEnvironmentChangesCallback(tesseract_msgs::srv::GetEnvironmentChanges_Request& req,
-                                     tesseract_msgs::srv::GetEnvironmentChanges_Response& res);
+  bool getEnvironmentChangesCallback(const std::shared_ptr<rmw_request_id_t> request_header,
+                                     tesseract_msgs::srv::GetEnvironmentChanges::Request::SharedPtr req,
+                                     tesseract_msgs::srv::GetEnvironmentChanges::Response::SharedPtr res);
 
   /** @brief Apply a list of commands to the environment. This used by both services and topics for updating environment
    * visualization */

@@ -28,8 +28,8 @@
  */
 #ifndef TESSERACT_RVIZ_MARKERS_MARKER_SELECTION_HANDLER_H
 #define TESSERACT_RVIZ_MARKERS_MARKER_SELECTION_HANDLER_H
-#include "rviz/selection/forwards.h"
-#include "rviz/selection/selection_manager.h"
+#include "rviz_common/interaction/forwards.hpp"
+#include "rviz_common/interaction/selection_manager.hpp"
 
 namespace tesseract_rviz
 {

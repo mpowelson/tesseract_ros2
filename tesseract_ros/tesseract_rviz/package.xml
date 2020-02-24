@@ -16,6 +16,7 @@
   <depend>tesseract_msgs</depend>
   <depend>tesseract</depend>
   <depend>tesseract_rosutils</depend>
+  <depend>Qt5</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

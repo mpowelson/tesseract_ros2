@@ -5,10 +5,11 @@ add_compile_options(-std=c++11 -Wall -Wextra)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(message_generation REQUIRED)
+#find_package(message_generation REQUIRED)
 find_package(tesseract_msgs REQUIRED)
 find_package(tesseract_rosutils REQUIRED)
 find_package(rviz2 REQUIRED)
+find_package(rviz_ogre_vendor REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(interactive_markers REQUIRED)
 
@@ -20,13 +21,19 @@ find_package(Eigen3 REQUIRED)
 list(FIND CMAKE_CXX_COMPILE_FEATURES cxx_std_11 CXX_FEATURE_FOUND)
 
 # Ogre
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(OGRE OGRE)
-link_directories(${OGRE_LIBRARY_DIRS} )
+#find_package(PkgConfig REQUIRED)
+#pkg_check_modules(OGRE OGRE)
+#link_directories(${OGRE_LIBRARY_DIRS} )
+
+# TODO: Find out if this still exists
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
+set(rviz2_QT_VERSION 5)
+message(WARNING QT5_Found: ${Qt5_FOUND})
+
 
 # Qt Stuff
-if(rviz_QT_VERSION VERSION_LESS "5")
-  find_package(Qt4 ${rviz_QT_VERSION} REQUIRED QtCore QtGui)
+if(rviz2_QT_VERSION VERSION_LESS "5")
+  find_package(Qt4 ${rviz2_QT_VERSION} REQUIRED QtCore QtGui)
   include(${QT_USE_FILE})
   macro(qt_wrap_ui)
     qt4_wrap_ui(${ARGN})
@@ -35,7 +42,7 @@ if(rviz_QT_VERSION VERSION_LESS "5")
     qt4_wrap_cpp(${ARGN})
   endmacro()
 else()
-  find_package(Qt5 ${rviz_QT_VERSION} REQUIRED Core Widgets)
+  find_package(Qt5 ${rviz2_QT_VERSION} REQUIRED Core Widgets)
   set(QT_LIBRARIES Qt5::Widgets)
   macro(qt_wrap_ui)
     qt5_wrap_ui(${ARGN})
@@ -77,54 +84,53 @@ include_directories(
   SYSTEM ${Boost_INCLUDE_DIRS}
   SYSTEM ${EIGEN3_INCLUDE_DIRS}
   SYSTEM ${QT_INCLUDE_DIR}
-  SYSTEM ${OGRE_INCLUDE_DIRS}
+#  SYSTEM ${OGRE_INCLUDE_DIRS}
 )
 
 # Rviz Render Tools
 qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
-  include/tesseract_rviz/render_tools/trajectory_panel.h
-  include/tesseract_rviz/render_tools/visualization_widget.h
-  include/tesseract_rviz/render_tools/link_widget.h
-  include/tesseract_rviz/render_tools/joint_widget.h
-  include/tesseract_rviz/render_tools/joint_state_monitor_widget.h
-  include/tesseract_rviz/render_tools/environment_widget.h
-  include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
-  include/tesseract_rviz/render_tools/manipulation_widget.h
-  include/tesseract_rviz/interactive_marker/integer_action.h
-  include/tesseract_rviz/interactive_marker/interactive_marker.h
+#  include/tesseract_rviz/render_tools/trajectory_panel.h
+#  include/tesseract_rviz/render_tools/visualization_widget.h
+#  include/tesseract_rviz/render_tools/link_widget.h
+#  include/tesseract_rviz/render_tools/joint_widget.h
+#  include/tesseract_rviz/render_tools/joint_state_monitor_widget.h
+#  include/tesseract_rviz/render_tools/environment_widget.h
+#  include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
+#  include/tesseract_rviz/render_tools/manipulation_widget.h
+#  include/tesseract_rviz/interactive_marker/integer_action.h
+#  include/tesseract_rviz/interactive_marker/interactive_marker.h
   include/tesseract_rviz/property/button_property.h
   )
 
 add_library(${PROJECT_NAME}_render_tools SHARED
-  src/render_tools/visualization_widget.cpp
-  src/render_tools/joint_widget.cpp
-  src/render_tools/link_widget.cpp
-  src/render_tools/trajectory_panel.cpp
-  src/render_tools/joint_state_monitor_widget.cpp
-  src/render_tools/environment_widget.cpp
-  src/render_tools/trajectory_monitor_widget.cpp
-  src/render_tools/manipulation_widget.cpp
-  src/interactive_marker/integer_action.cpp
-  src/interactive_marker/interactive_marker.cpp
-  src/interactive_marker/interactive_marker_control.cpp
-  src/markers/marker_base.cpp
-  src/markers/marker_selection_handler.cpp
-  src/markers/utils.cpp
-  src/markers/arrow_marker.cpp
-  src/markers/sphere_marker.cpp
-  src/markers/cube_marker.cpp
-  src/markers/cylinder_marker.cpp
-  src/markers/triangle_list_marker.cpp
-  src/markers/text_view_facing_marker.cpp
+#  src/render_tools/visualization_widget.cpp
+#  src/render_tools/joint_widget.cpp
+#  src/render_tools/link_widget.cpp
+#  src/render_tools/trajectory_panel.cpp
+#  src/render_tools/joint_state_monitor_widget.cpp
+#  src/render_tools/environment_widget.cpp
+#  src/render_tools/trajectory_monitor_widget.cpp
+#  src/render_tools/manipulation_widget.cpp
+#  src/interactive_marker/integer_action.cpp
+#  src/interactive_marker/interactive_marker.cpp
+#  src/interactive_marker/interactive_marker_control.cpp
+#  src/markers/marker_base.cpp
+#  src/markers/marker_selection_handler.cpp
+#  src/markers/utils.cpp
+#  src/markers/arrow_marker.cpp
+#  src/markers/sphere_marker.cpp
+#  src/markers/cube_marker.cpp
+#  src/markers/cylinder_marker.cpp
+#  src/markers/triangle_list_marker.cpp
+#  src/markers/text_view_facing_marker.cpp
   src/property/button_property.cpp
   ${${PROJECT_NAME}_render_tools_cpp_MOCS}
 )
-
+target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC tesseract::tesseract rviz_ogre_vendor::OgreMain rviz_ogre_vendor::OgreOverlay Qt5::Widgets)
 ament_target_dependencies(${PROJECT_NAME}_render_tools PUBLIC
-  tesseract::tesseract
-  ${OGRE_LIBRARIES}
-  ${QT_LIBRARIES}
-  ${Boost_LIBRARIES}
+#  ${OGRE_LIBRARIES}
+#  ${QT_LIBRARIES}
+#  ${Boost_LIBRARIES}
 )
 
 target_compile_options(${PROJECT_NAME}_render_tools PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
@@ -140,8 +146,8 @@ target_include_directories(${PROJECT_NAME}_render_tools SYSTEM PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
     ${Boost_INCLUDE_DIRS}
-    ${QT_INCLUDE_DIR}
-    ${OGRE_INCLUDE_DIRS}
+#    ${QT_INCLUDE_DIR}
+#    ${OGRE_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS})
 
 ##add_library(${PROJECT_NAME}_scene_plugin_core
@@ -334,19 +340,10 @@ install(FILES tesseract_rviz_state_plugin_description.xml tesseract_rviz_traject
 )
 #pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
 
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(message_generation REQUIRED)
-find_package(tesseract_msgs REQUIRED)
-find_package(tesseract_rosutils REQUIRED)
-find_package(rviz2 REQUIRED)
-find_package(pluginlib REQUIRED)
-find_package(interactive_markers REQUIRED)
-
 ament_export_dependencies(
     ament_cmake
     rclcpp
-    message_generation
+#    message_generation
     rclcpp
     tesseract_msgs
     rviz2

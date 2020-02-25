@@ -600,8 +600,8 @@ void EnvironmentWidget::loadEnvironment()
   load_tesseract_ = false;
   // Initial setup
   std::string urdf_xml_string, srdf_xml_string;
-//  nh_.getParam(urdf_description_property_->getString().toStdString(), urdf_xml_string);
-//  nh_.getParam(urdf_description_property_->getString().toStdString() + "_semantic", srdf_xml_string);
+  node_->get_parameter(urdf_description_property_->getString().toStdString(), urdf_xml_string);
+  node_->get_parameter(urdf_description_property_->getString().toStdString() + "_semantic", srdf_xml_string);
 
   // Load URDF model
   if (urdf_xml_string.empty())
@@ -612,8 +612,8 @@ void EnvironmentWidget::loadEnvironment()
   }
   else
   {
-//    tesseract_scene_graph::ResourceLocatorFn locator = tesseract_rosutils::locateResource;
-//    if (tesseract_->init(urdf_xml_string, srdf_xml_string, locator))
+    auto locator = std::make_shared<tesseract_rosutils::ROSResourceLocator>();
+    if (tesseract_->init(urdf_xml_string, srdf_xml_string, locator))
     {
       visualization_->clear();
       visualization_->load(tesseract_->getEnvironment()->getSceneGraph(), true, true, true, true);
@@ -627,10 +627,10 @@ void EnvironmentWidget::loadEnvironment()
       changedEnableCollisionVisible();
       visualization_->setVisible(true);
     }
-//    else
-//    {
+    else
+    {
       //      setStatus(rviz::StatusProperty::Error, "Tesseract", "URDF file failed to parse");
-//    }
+    }
   }
 
   highlights_.clear();

@@ -82,7 +82,7 @@ class TrajectoryMonitorWidget : public QObject
 
 public:
   using Ptr = std::shared_ptr<TrajectoryMonitorWidget>;
-  using ConstPtr = std::shared_ptr<const TrajectoryMonitorWidget>;
+  using ConstSharedPtr = std::shared_ptr<const TrajectoryMonitorWidget>;
 
   TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display);
 

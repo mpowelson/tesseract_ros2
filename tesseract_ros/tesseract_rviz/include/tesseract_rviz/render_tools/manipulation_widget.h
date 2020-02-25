@@ -70,7 +70,7 @@ class ManipulationWidget : public QObject
 
 public:
   using Ptr = std::shared_ptr<ManipulationWidget>;
-  using ConstPtr = std::shared_ptr<const ManipulationWidget>;
+  using ConstSharedPtr = std::shared_ptr<const ManipulationWidget>;
 
   enum class ManipulatorState
   {

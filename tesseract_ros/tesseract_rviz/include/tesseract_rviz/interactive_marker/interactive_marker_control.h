@@ -98,8 +98,8 @@ class InteractiveMarkerControl : public Ogre::SceneManager::Listener,
                                  public boost::enable_shared_from_this<InteractiveMarkerControl>
 {
 public:
-  using Ptr = boost::shared_ptr<InteractiveMarkerControl>;
-  using ConstPtr = boost::shared_ptr<const InteractiveMarkerControl>;
+  using SharedPtr = std::shared_ptr<InteractiveMarkerControl>;
+  using ConstSharedPtr = std::shared_ptr<const InteractiveMarkerControl>;
 
   InteractiveMarkerControl(const std::string& name,
                            const std::string& description,

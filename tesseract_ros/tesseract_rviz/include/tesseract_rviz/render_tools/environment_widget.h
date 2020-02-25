@@ -36,7 +36,7 @@ class EnvironmentWidget : public QObject
 
 public:
   using Ptr = std::shared_ptr<EnvironmentWidget>;
-  using ConstPtr = std::shared_ptr<const EnvironmentWidget>;
+  using ConstSharedPtr = std::shared_ptr<const EnvironmentWidget>;
 
   EnvironmentWidget(rviz_common::properties::Property* widget, rviz_common::Display* display, const std::string& widget_ns = std::string());
 

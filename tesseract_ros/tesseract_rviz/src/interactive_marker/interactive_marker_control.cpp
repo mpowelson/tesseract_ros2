@@ -38,7 +38,7 @@
 #include <OgreSharedPtr.h>
 #include <OgreTechnique.h>
 
-#include "rviz/display_context.h"
+#include "rviz_common/display_context.hpp"
 #include "rviz/selection/selection_manager.h"
 #include "rviz/render_panel.h"
 #include "rviz/load_resource.h"

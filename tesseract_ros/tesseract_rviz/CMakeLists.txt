@@ -115,7 +115,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
 #  src/interactive_marker/integer_action.cpp
 #  src/interactive_marker/interactive_marker.cpp
 #  src/interactive_marker/interactive_marker_control.cpp
-#  src/markers/marker_base.cpp
+  src/markers/marker_base.cpp
 #  src/markers/marker_selection_handler.cpp
 #  src/markers/utils.cpp
 #  src/markers/arrow_marker.cpp

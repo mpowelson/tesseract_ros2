@@ -42,7 +42,7 @@
 #include <ros/ros.h>
 
 #include "rviz/frame_manager.h"
-#include "rviz/display_context.h"
+#include "rviz_common/display_context.hpp"
 #include "rviz/selection/selection_manager.h"
 #include "rviz/frame_manager.h"
 #include "rviz/render_panel.h"

@@ -31,7 +31,7 @@
 #include "rviz/selection/selection_manager.h"
 #include "rviz/uniform_string_stream.h"
 
-#include "rviz/display_context.h"
+#include "rviz_common/display_context.hpp"
 #include "rviz/mesh_loader.h"
 
 #include <OgreSceneNode.h>

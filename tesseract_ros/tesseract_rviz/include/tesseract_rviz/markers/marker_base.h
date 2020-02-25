@@ -40,7 +40,7 @@
 namespace Ogre
 {
 class SceneNode;
-class Vector3;
+//class Vector3;
 class Quaternion;
 class Entity;
 }  // namespace Ogre
@@ -58,8 +58,8 @@ typedef std::pair<std::string, int32_t> MarkerID;
 class MarkerBase
 {
 public:
-  using Ptr = boost::shared_ptr<MarkerBase>;
-  using ConstPtr = boost::shared_ptr<const MarkerBase>;
+  using SharedPtr = std::shared_ptr<MarkerBase>;
+  using ConstSharedPtr = std::shared_ptr<const MarkerBase>;
 
   MarkerBase(const std::string& ns, const int id, rviz_common::DisplayContext* context, Ogre::SceneNode* parent_node);
   virtual ~MarkerBase();
@@ -74,7 +74,7 @@ public:
   }
 
   /** @brief Associate an InteractiveObject with this MarkerBase. */
-  void setInteractiveObject(rviz::InteractiveObjectWPtr object);
+  void setInteractiveObject(rviz_common::InteractiveObjectWPtr object);
 
   virtual void setPosition(const Ogre::Vector3& position);
   virtual void setOrientation(const Ogre::Quaternion& orientation);

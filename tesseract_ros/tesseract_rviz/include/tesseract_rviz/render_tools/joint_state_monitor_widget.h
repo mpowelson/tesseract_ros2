@@ -30,7 +30,7 @@ class JointStateMonitorWidget : public QObject
 
 public:
   using Ptr = std::shared_ptr<JointStateMonitorWidget>;
-  using ConstPtr = std::shared_ptr<const JointStateMonitorWidget>;
+  using ConstSharedPtr = std::shared_ptr<const JointStateMonitorWidget>;
 
   JointStateMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display);
 

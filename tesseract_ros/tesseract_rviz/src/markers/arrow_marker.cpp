@@ -33,7 +33,7 @@
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
 
-#include "rviz/display_context.h"
+#include "rviz_common/display_context.hpp"
 #include "rviz/ogre_helpers/arrow.h"
 #include "rviz/ogre_helpers/shape.h"
 #include "rviz/selection/selection_manager.h"

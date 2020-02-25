@@ -31,9 +31,9 @@
 #include <tesseract_rviz/markers/marker_selection_handler.h>
 
 #include <rviz_common/display_context.hpp>
-#include <rviz/selection/selection_manager.h>
-#include <rviz/frame_manager.h>
-#include <rviz/interactive_object.h>
+#include <rviz_common/interaction/selection_manager.hpp>
+#include <rviz_common/frame_manager_iface.hpp>
+#include <rviz_common/interactive_object.hpp>
 
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
@@ -50,7 +50,7 @@ MarkerBase::MarkerBase(const std::string& ns, const int id, rviz_common::Display
 
 MarkerBase::~MarkerBase() { context_->getSceneManager()->destroySceneNode(scene_node_); }
 
-void MarkerBase::setInteractiveObject(rviz::InteractiveObjectWPtr control)
+void MarkerBase::setInteractiveObject(rviz_common::InteractiveObjectWPtr control)
 {
   if (handler_)
   {

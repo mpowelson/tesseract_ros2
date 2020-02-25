@@ -61,7 +61,7 @@ class TesseractStateDisplay : public rviz_common::Display
 
 public:
   using Ptr = std::shared_ptr<TesseractStateDisplay>;
-  using ConstPtr = std::shared_ptr<const TesseractStateDisplay>;
+  using ConstSharedPtr = std::shared_ptr<const TesseractStateDisplay>;
 
   TesseractStateDisplay();
   ~TesseractStateDisplay() override;

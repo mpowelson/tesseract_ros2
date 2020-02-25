@@ -40,9 +40,12 @@ namespace Ogre
 class SceneNode;
 }
 
-namespace rviz
+namespace rviz_rendering
 {
 class Arrow;
+}
+
+namespace rviz_common {
 class DisplayContext;
 }  // namespace rviz
 

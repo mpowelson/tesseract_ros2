@@ -34,9 +34,9 @@
 #include <OgreEntity.h>
 
 #include "rviz_common/display_context.hpp"
-#include "rviz/ogre_helpers/arrow.h"
-#include "rviz/ogre_helpers/shape.h"
-#include "rviz/selection/selection_manager.h"
+#include "rviz_rendering/objects/arrow.hpp"
+#include "rviz_rendering/objects/shape.hpp"
+#include "rviz_common/interaction/selection_manager.hpp"
 
 #include <tesseract_rviz/markers/arrow_marker.h>
 #include <tesseract_rviz/markers/marker_selection_handler.h>

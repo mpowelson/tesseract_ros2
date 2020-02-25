@@ -41,9 +41,12 @@ class SceneNode;
 
 namespace rviz_common
 {
-class Arrow;
 class DisplayContext;
 }  // namespace rviz
+
+namespace rviz_rendering {
+class Arrow;
+}
 
 namespace tesseract_rviz
 {

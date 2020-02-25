@@ -153,55 +153,57 @@ target_include_directories(${PROJECT_NAME}_render_tools SYSTEM PUBLIC
 #    ${OGRE_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS})
 
-##add_library(${PROJECT_NAME}_scene_plugin_core
-##  src/tesseract_scene_plugin/tesseract_scene_display.cpp
-##  include/tesseract_rviz/tesseract_scene_plugin/tesseract_scene_display.h)
-##ament_add_dependencies(${PROJECT_NAME}_scene_plugin_core ${PROJECT_NAME}_render_tools ${OGRE_LIBRARIES} ${QT_LIBRARIES} ${Boost_LIBRARIES})
+#add_library(${PROJECT_NAME}_scene_plugin_core
+#  src/tesseract_scene_plugin/tesseract_scene_display.cpp
+#  include/tesseract_rviz/tesseract_scene_plugin/tesseract_scene_display.h)
+#ament_add_dependencies(${PROJECT_NAME}_scene_plugin_core ${PROJECT_NAME}_render_tools ${OGRE_LIBRARIES} ${QT_LIBRARIES} ${Boost_LIBRARIES})
 
-##add_library(${PROJECT_NAME}_scene_plugin src/tesseract_scene_plugin/plugin_init.cpp)
-##ament_add_dependencies(${PROJECT_NAME}_scene_plugin ${PROJECT_NAME}_scene_plugin_core ${Boost_LIBRARIES})
+#add_library(${PROJECT_NAME}_scene_plugin src/tesseract_scene_plugin/plugin_init.cpp)
+#ament_add_dependencies(${PROJECT_NAME}_scene_plugin ${PROJECT_NAME}_scene_plugin_core ${Boost_LIBRARIES})
 
-## Trajectory State Disply
-#qt_wrap_cpp(${PROJECT_NAME}_state_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_state_plugin/tesseract_state_display.h)
+# Trajectory State Display
+qt_wrap_cpp(${PROJECT_NAME}_state_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_state_plugin/tesseract_state_display.h)
 
-#add_library(${PROJECT_NAME}_state_plugin_core SHARED src/tesseract_state_plugin/tesseract_state_display.cpp ${${PROJECT_NAME}_state_plugin_core_cpp_MOCS})
-#ament_target_dependencies(${PROJECT_NAME}_state_plugin_core PUBLIC
+add_library(${PROJECT_NAME}_state_plugin_core SHARED src/tesseract_state_plugin/tesseract_state_display.cpp ${${PROJECT_NAME}_state_plugin_core_cpp_MOCS})
+ament_target_dependencies(${PROJECT_NAME}_state_plugin_core PUBLIC
 #  ${PROJECT_NAME}_render_tools
 #  ${OGRE_LIBRARIES}
 #  ${QT_LIBRARIES}
-#  ${Boost_LIBRARIES})
-#target_compile_options(${PROJECT_NAME}_state_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-#if(CXX_FEATURE_FOUND EQUAL "-1")
-#    target_compile_options(${PROJECT_NAME}_state_plugin_core PUBLIC -std=c++11)
-#else()
-#    target_compile_features(${PROJECT_NAME}_state_plugin_core PUBLIC cxx_std_11)
-#endif()
-#target_include_directories(${PROJECT_NAME}_state_plugin_core PUBLIC
-#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#    "$<INSTALL_INTERFACE:include>")
-#target_include_directories(${PROJECT_NAME}_state_plugin_core SYSTEM PUBLIC
-#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#  "$<INSTALL_INTERFACE:include>"
+#  ${Boost_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}_state_plugin_core PUBLIC ${PROJECT_NAME}_render_tools)
+target_compile_options(${PROJECT_NAME}_state_plugin_core PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+if(CXX_FEATURE_FOUND EQUAL "-1")
+    target_compile_options(${PROJECT_NAME}_state_plugin_core PUBLIC -std=c++14)
+else()
+    target_compile_features(${PROJECT_NAME}_state_plugin_core PUBLIC cxx_std_14)
+endif()
+target_include_directories(${PROJECT_NAME}_state_plugin_core PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include>")
+target_include_directories(${PROJECT_NAME}_state_plugin_core SYSTEM PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
 #    ${Boost_INCLUDE_DIRS}
 #    ${QT_INCLUDE_DIR}
 #    ${OGRE_INCLUDE_DIRS}
-#    ${EIGEN3_INCLUDE_DIRS})
+    ${EIGEN3_INCLUDE_DIRS})
 
-#add_library(${PROJECT_NAME}_state_plugin SHARED src/tesseract_state_plugin/plugin_init.cpp)
+add_library(${PROJECT_NAME}_state_plugin SHARED src/tesseract_state_plugin/plugin_init.cpp)
 #ament_target_dependencies(${PROJECT_NAME}_state_plugin PRIVATE ${PROJECT_NAME}_state_plugin_core ${Boost_LIBRARIES})
-#target_compile_options(${PROJECT_NAME}_state_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-#if(CXX_FEATURE_FOUND EQUAL "-1")
-#    target_compile_options(${PROJECT_NAME}_state_plugin PUBLIC -std=c++11)
-#else()
-#    target_compile_features(${PROJECT_NAME}_state_plugin PUBLIC cxx_std_11)
-#endif()
-#target_include_directories(${PROJECT_NAME}_state_plugin PRIVATE
-#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#    "$<INSTALL_INTERFACE:include>")
-#target_include_directories(${PROJECT_NAME}_state_plugin SYSTEM PRIVATE
-#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#  "$<INSTALL_INTERFACE:include>"
-#    ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME}_state_plugin PRIVATE ${PROJECT_NAME}_state_plugin_core)
+target_compile_options(${PROJECT_NAME}_state_plugin PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+if(CXX_FEATURE_FOUND EQUAL "-1")
+    target_compile_options(${PROJECT_NAME}_state_plugin PUBLIC -std=c++14)
+else()
+    target_compile_features(${PROJECT_NAME}_state_plugin PUBLIC cxx_std_14)
+endif()
+target_include_directories(${PROJECT_NAME}_state_plugin PRIVATE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include>")
+target_include_directories(${PROJECT_NAME}_state_plugin SYSTEM PRIVATE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>")
 
 ### Trajectory Display
 #qt_wrap_cpp(${PROJECT_NAME}_trajectory_plugin_core_cpp_MOCS include/tesseract_rviz/tesseract_trajectory_plugin/tesseract_trajectory_display.h)

@@ -39,12 +39,12 @@
 
 #include <tesseract_common/macros.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <rviz/display.h>
+#include <rviz_common/display.hpp>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #ifndef Q_MOC_RUN
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 #include <tesseract/tesseract.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #endif
@@ -60,7 +60,7 @@ class TesseractStateDisplay : public rviz_common::Display
   Q_OBJECT
 
 public:
-  using Ptr = std::shared_ptr<TesseractStateDisplay>;
+  using SharedPtr = std::shared_ptr<TesseractStateDisplay>;
   using ConstSharedPtr = std::shared_ptr<const TesseractStateDisplay>;
 
   TesseractStateDisplay();
@@ -79,7 +79,7 @@ protected:
   void onDisable() override;
   //  void fixedFrameChanged() override;
 
-  ros::NodeHandle nh_;
+  rclcpp::Node::SharedPtr node_;
 
   tesseract::Tesseract::Ptr tesseract_;
   VisualizationWidget::SharedPtr visualization_;

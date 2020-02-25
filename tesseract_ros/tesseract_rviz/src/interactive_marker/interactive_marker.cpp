@@ -642,7 +642,7 @@ void InteractiveMarker::stopDragging()
   }
 }
 
-bool InteractiveMarker::handle3DCursorEvent(rviz::ViewportMouseEvent& event,
+bool InteractiveMarker::handle3DCursorEvent(rviz_common::ViewportMouseEvent& event,
                                             const Ogre::Vector3& cursor_pos,
                                             const Ogre::Quaternion& cursor_rot,
                                             const std::string& control_name)
@@ -681,7 +681,7 @@ bool InteractiveMarker::handle3DCursorEvent(rviz::ViewportMouseEvent& event,
   return false;
 }
 
-bool InteractiveMarker::handleMouseEvent(rviz::ViewportMouseEvent& event, const std::string& control_name)
+bool InteractiveMarker::handleMouseEvent(rviz_common::ViewportMouseEvent& event, const std::string& control_name)
 {
   boost::recursive_mutex::scoped_lock lock(mutex_);
 
@@ -715,7 +715,7 @@ bool InteractiveMarker::handleMouseEvent(rviz::ViewportMouseEvent& event, const 
   return false;
 }
 
-void InteractiveMarker::showMenu(rviz::ViewportMouseEvent& event,
+void InteractiveMarker::showMenu(rviz_common::ViewportMouseEvent& event,
                                  const std::string& control_name,
                                  const Ogre::Vector3& three_d_point,
                                  bool valid_point)

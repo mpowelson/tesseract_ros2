@@ -123,7 +123,7 @@ public:
   void setShowVisualAids(bool show);
 
   // @return true if the mouse event was intercepted, false if it was ignored
-  bool handleMouseEvent(rviz::ViewportMouseEvent& event, const std::string& control_name);
+  bool handleMouseEvent(rviz_common::ViewportMouseEvent& event, const std::string& control_name);
 
   /**
    * Supports selection and menu events from a 3D cursor.
@@ -135,7 +135,7 @@ public:
    * @param  control_name The name of the child InteractiveMarkerControl calling this function.
    * @return              true if the cursor event was intercepted, false if it was ignored
    */
-  bool handle3DCursorEvent(rviz::ViewportMouseEvent& event,
+  bool handle3DCursorEvent(rviz_common::ViewportMouseEvent& event,
                            const Ogre::Vector3& cursor_pos,
                            const Ogre::Quaternion& cursor_rot,
                            const std::string& control_name);
@@ -150,7 +150,7 @@ public:
    * @param  valid_point   True if three_d_point is valid (e.g. if the mouse ray was successfully intersected with
    * marker geometry).
    */
-  void showMenu(rviz::ViewportMouseEvent& event,
+  void showMenu(rviz_common::ViewportMouseEvent& event,
                 const std::string& control_name,
                 const Ogre::Vector3& three_d_point,
                 bool valid_point);

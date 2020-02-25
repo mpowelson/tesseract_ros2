@@ -119,7 +119,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
 #  src/markers/marker_selection_handler.cpp
 #  src/markers/utils.cpp
 #  src/markers/arrow_marker.cpp
-#  src/markers/sphere_marker.cpp
+  src/markers/sphere_marker.cpp
 #  src/markers/cube_marker.cpp
 #  src/markers/cylinder_marker.cpp
 #  src/markers/triangle_list_marker.cpp

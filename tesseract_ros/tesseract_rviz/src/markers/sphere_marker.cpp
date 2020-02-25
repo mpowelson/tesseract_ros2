@@ -28,9 +28,9 @@
 #include <tesseract_rviz/markers/utils.h>
 
 #include <rviz_common/display_context.hpp>
-#include <rviz/selection/selection_manager.h>
+#include <rviz_common/interaction/selection_manager.hpp>
 
-#include <rviz/ogre_helpers/shape.h>
+#include <rviz_rendering/objects/shape.hpp>
 
 #include <OgreSceneNode.h>
 #include <OgreMatrix3.h>

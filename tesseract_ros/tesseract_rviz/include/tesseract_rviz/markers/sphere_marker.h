@@ -32,7 +32,7 @@
 #include <string>
 #endif
 
-namespace rviz
+namespace rviz_rendering
 {
 class Shape;
 }

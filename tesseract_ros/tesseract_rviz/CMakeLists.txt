@@ -9,7 +9,9 @@ find_package(console_bridge REQUIRED)
 #find_package(message_generation REQUIRED)
 find_package(tesseract_msgs REQUIRED)
 find_package(tesseract_rosutils REQUIRED)
-find_package(rviz2 REQUIRED)
+#find_package(rviz2 REQUIRED)
+find_package(rviz_common REQUIRED)
+find_package(rviz_rendering REQUIRED)
 find_package(rviz_ogre_vendor REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(interactive_markers REQUIRED)
@@ -116,7 +118,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
 #  src/interactive_marker/interactive_marker.cpp
 #  src/interactive_marker/interactive_marker_control.cpp
   src/markers/marker_base.cpp
-#  src/markers/marker_selection_handler.cpp
+  src/markers/marker_selection_handler.cpp
 #  src/markers/utils.cpp
   src/markers/arrow_marker.cpp
   src/markers/sphere_marker.cpp
@@ -127,7 +129,13 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   src/property/button_property.cpp
   ${${PROJECT_NAME}_render_tools_cpp_MOCS}
 )
-target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC tesseract::tesseract rviz_ogre_vendor::OgreMain rviz_ogre_vendor::OgreOverlay Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME}_render_tools PUBLIC
+  tesseract::tesseract
+  rviz_ogre_vendor::OgreMain
+  rviz_ogre_vendor::OgreOverlay
+  Qt5::Widgets
+  rviz_common::rviz_common
+  rviz_rendering::rviz_rendering)
 ament_target_dependencies(${PROJECT_NAME}_render_tools PUBLIC
   tesseract_msgs
   tesseract_rosutils
@@ -304,20 +312,20 @@ target_include_directories(${PROJECT_NAME}_trajectory_plugin SYSTEM PRIVATE
 #    ${Boost_INCLUDE_DIRS}
 #    ${EIGEN3_INCLUDE_DIRS})
 
-#add_executable(${PROJECT_NAME}_test src/test.cpp)
-#target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}_trajectory_plugin_core)
-#target_compile_options(${PROJECT_NAME}_test PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
-#if(CXX_FEATURE_FOUND EQUAL "-1")
-#    target_compile_options(${PROJECT_NAME}_test PUBLIC -std=c++14)
-#else()
-#    target_compile_features(${PROJECT_NAME}_test PUBLIC cxx_std_14)
-#endif()
-#target_include_directories(${PROJECT_NAME}_test PRIVATE
-#    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#    "$<INSTALL_INTERFACE:include>")
-#target_include_directories(${PROJECT_NAME}_test SYSTEM PRIVATE
-#  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-#  "$<INSTALL_INTERFACE:include>")
+add_executable(${PROJECT_NAME}_test src/test.cpp)
+target_link_libraries(${PROJECT_NAME}_test PRIVATE ${PROJECT_NAME}_trajectory_plugin_core)
+target_compile_options(${PROJECT_NAME}_test PRIVATE -Wall -Wextra -Wsuggest-override -Wconversion -Wsign-conversion)
+if(CXX_FEATURE_FOUND EQUAL "-1")
+    target_compile_options(${PROJECT_NAME}_test PUBLIC -std=c++14)
+else()
+    target_compile_features(${PROJECT_NAME}_test PUBLIC cxx_std_14)
+endif()
+target_include_directories(${PROJECT_NAME}_test PRIVATE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include>")
+target_include_directories(${PROJECT_NAME}_test SYSTEM PRIVATE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>")
 
 
 # Mark executables and/or libraries for installation

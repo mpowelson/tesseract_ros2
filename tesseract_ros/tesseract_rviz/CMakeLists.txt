@@ -100,7 +100,7 @@ qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
   include/tesseract_rviz/render_tools/environment_widget.h
   include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
 #  include/tesseract_rviz/render_tools/manipulation_widget.h
-#  include/tesseract_rviz/interactive_marker/integer_action.h
+  include/tesseract_rviz/interactive_marker/integer_action.h
 #  include/tesseract_rviz/interactive_marker/interactive_marker.h
   include/tesseract_rviz/property/button_property.h
   )
@@ -114,7 +114,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   src/render_tools/environment_widget.cpp
   src/render_tools/trajectory_monitor_widget.cpp
 #  src/render_tools/manipulation_widget.cpp
-#  src/interactive_marker/integer_action.cpp
+  src/interactive_marker/integer_action.cpp
 #  src/interactive_marker/interactive_marker.cpp
 #  src/interactive_marker/interactive_marker_control.cpp
   src/markers/marker_base.cpp
@@ -331,10 +331,10 @@ target_include_directories(${PROJECT_NAME}_test SYSTEM PRIVATE
 # Mark executables and/or libraries for installation
 install(TARGETS
     ${PROJECT_NAME}_render_tools
-#    ${PROJECT_NAME}_state_plugin_core
-#    ${PROJECT_NAME}_state_plugin
-#    ${PROJECT_NAME}_trajectory_plugin_core
-#    ${PROJECT_NAME}_trajectory_plugin
+    ${PROJECT_NAME}_state_plugin_core
+    ${PROJECT_NAME}_state_plugin
+    ${PROJECT_NAME}_trajectory_plugin_core
+    ${PROJECT_NAME}_trajectory_plugin
 #    ${PROJECT_NAME}_manipulation_plugin_core
 #    ${PROJECT_NAME}_manipulation_plugin
     EXPORT ${PACKAGE_NAME}-targets
@@ -352,11 +352,14 @@ install(DIRECTORY include/
 )
 
 # Mark plugin XML files for installation
-install(FILES tesseract_rviz_state_plugin_description.xml tesseract_rviz_trajectory_plugin_description.xml tesseract_rviz_manipulation_plugin_description.xml
+install(FILES tesseract_rviz_state_plugin_description.xml tesseract_rviz_trajectory_plugin_description.xml #tesseract_rviz_manipulation_plugin_description.xml
   DESTINATION share/${PROJECT_NAME}
 )
-#pluginlib_export_plugin_description_file(rviz_common plugin_description.xml)
+pluginlib_export_plugin_description_file(rviz_common tesseract_rviz_state_plugin_description.xml)
+pluginlib_export_plugin_description_file(rviz_common tesseract_rviz_trajectory_plugin_description.xml)
+#pluginlib_export_plugin_description_file(rviz_common tesseract_rviz_manipulation_plugin_description.xml)
 
+# TODO: Fill this out correctly
 ament_export_dependencies(
     ament_cmake
     rclcpp

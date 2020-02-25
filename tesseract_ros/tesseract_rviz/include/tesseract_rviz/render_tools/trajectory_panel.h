@@ -53,7 +53,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-class TrajectoryPanel : public rviz::Panel
+class TrajectoryPanel : public rviz_common::Panel
 {
   Q_OBJECT
 

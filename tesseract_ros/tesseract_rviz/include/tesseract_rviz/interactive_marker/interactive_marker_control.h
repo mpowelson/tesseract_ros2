@@ -411,7 +411,7 @@ protected:
 
   std::string name_;
 
-  std::vector<boost::shared_ptr<MarkerBase>> markers_;
+  std::vector<std::shared_ptr<MarkerBase>> markers_;
 
   InteractiveMarker* parent_;
 
@@ -420,7 +420,7 @@ protected:
   //  // PointsMarkers are rendered by special shader programs, so the
   //  // regular highlighting method does not work for them.  Keep a
   //  // vector of them so we can call their setHighlightColor() function.
-  //  typedef boost::shared_ptr<PointsMarker> PointsMarkerPtr;
+  //  typedef std::shared_ptr<PointsMarker> PointsMarkerPtr;
   //  std::vector< PointsMarkerPtr > points_markers_;
 
   /** Stores the rotation around the x axis of the control.  Only
@@ -503,7 +503,7 @@ protected:
 
   bool mouse_down_;
 
-  //  boost::shared_ptr<Line> line_;
+  //  std::shared_ptr<Line> line_;
 
   bool show_visual_aids_;
 };

@@ -753,7 +753,7 @@ void InteractiveMarker::handleMenuSelect(int menu_item_id)
     //    {
     //      std::string sys_cmd = "rosrun " + command;
     //      ROS_INFO_STREAM( "Running system command: " << sys_cmd );
-    //      sys_thread_ = boost::shared_ptr<boost::thread>( new boost::thread( boost::bind( &system, sys_cmd.c_str() ) )
+    //      sys_thread_ = std::shared_ptr<boost::thread>( new boost::thread( boost::bind( &system, sys_cmd.c_str() ) )
     //      );
     //      //system( sys_cmd.c_str() );
     //    }
@@ -761,7 +761,7 @@ void InteractiveMarker::handleMenuSelect(int menu_item_id)
     //    {
     //      std::string sys_cmd = "roslaunch " + command;
     //      ROS_INFO_STREAM( "Running system command: " << sys_cmd );
-    //      sys_thread_ = boost::shared_ptr<boost::thread>( new boost::thread( boost::bind( &system, sys_cmd.c_str() ) )
+    //      sys_thread_ = std::shared_ptr<boost::thread>( new boost::thread( boost::bind( &system, sys_cmd.c_str() ) )
     //      );
     //      //system( sys_cmd.c_str() );
     //    }

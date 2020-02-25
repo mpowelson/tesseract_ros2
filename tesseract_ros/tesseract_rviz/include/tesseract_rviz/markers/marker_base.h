@@ -33,8 +33,6 @@
 #include "rviz_common/interactive_object.hpp"
 
 #ifndef Q_MOC_RUN
-//#include <ros/time.h>  //TODO REmove
-#include <boost/shared_ptr.hpp>
 #endif
 
 namespace Ogre
@@ -99,7 +97,7 @@ protected:
 
   Ogre::SceneNode* scene_node_;
 
-  boost::shared_ptr<MarkerSelectionHandler> handler_;
+  std::shared_ptr<MarkerSelectionHandler> handler_;
 };
 
 }  // namespace tesseract_rviz

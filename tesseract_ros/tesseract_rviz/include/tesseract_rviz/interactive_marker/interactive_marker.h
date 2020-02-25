@@ -162,7 +162,7 @@ public:
   bool hasMenu() { return has_menu_; }
 
   /** @return A shared_ptr to the QMenu owned by this InteractiveMarker. */
-  boost::shared_ptr<QMenu> getMenu() { return menu_; }
+  std::shared_ptr<QMenu> getMenu() { return menu_; }
 
 Q_SIGNALS:
 
@@ -231,7 +231,7 @@ protected:
 
   float scale_;
 
-  boost::shared_ptr<QMenu> menu_;
+  std::shared_ptr<QMenu> menu_;
   bool has_menu_;
 
   // Helper to more simply represent the menu tree.
@@ -261,7 +261,7 @@ protected:
 
   boost::recursive_mutex mutex_;
 
-  boost::shared_ptr<boost::thread> sys_thread_;
+  std::shared_ptr<boost::thread> sys_thread_;
 
   bool got_3d_point_for_menu_;
   Ogre::Vector3 three_d_point_for_menu_;

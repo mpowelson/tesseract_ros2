@@ -69,7 +69,7 @@ public:
   std::set<Ogre::MaterialPtr> getMaterials() override;
 
 protected:
-  rviz::MovableText* text_;
+  rviz_rendering::MovableText* text_;
 };
 
 }  // namespace tesseract_rviz

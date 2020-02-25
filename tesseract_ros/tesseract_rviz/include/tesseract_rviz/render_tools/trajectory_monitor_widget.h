@@ -46,8 +46,8 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #ifndef Q_MOC_RUN
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
-#include <ros/ros.h>
-#include <tesseract_msgs/Trajectory.h>
+#include <rclcpp/rclcpp.hpp>
+#include <tesseract_msgs/msg/trajectory.hpp>
 #include <tesseract/tesseract.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #endif
@@ -55,9 +55,14 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 #include <tesseract_rviz/render_tools/visualization_widget.h>
 #include <tesseract_rviz/render_tools/trajectory_panel.h>
 
-namespace rviz
+namespace rviz_rendering
 {
 class Shape;
+class MovableText;
+}
+
+namespace rviz_common::properties
+{
 class Property;
 class IntProperty;
 class StringProperty;
@@ -67,7 +72,6 @@ class RosTopicProperty;
 class EditableEnumProperty;
 class EnumProperty;
 class ColorProperty;
-class MovableText;
 }  // namespace rviz
 
 namespace tesseract_rviz
@@ -87,7 +91,7 @@ public:
   void onInitialize(VisualizationWidget::Ptr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     rviz_common::DisplayContext* context,
-                    ros::NodeHandle update_nh);
+                    rclcpp::Node::SharedPtr update_node);
 
   void onEnable();
   void onDisable();
@@ -108,7 +112,7 @@ private Q_SLOTS:
   void trajectorySliderPanelVisibilityChange(bool enable);
 
 protected:
-  void incomingDisplayTrajectory(const tesseract_msgs::Trajectory::ConstPtr& msg);
+  void incomingDisplayTrajectory(const tesseract_msgs::msg::Trajectory::ConstSharedPtr msg);
   float getStateDisplayTime();
   void clearTrajectoryTrail();
   void createTrajectoryTrail();
@@ -118,13 +122,13 @@ protected:
   rviz_common::DisplayContext* context_;
   VisualizationWidget::Ptr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
-  ros::NodeHandle nh_;
+  rclcpp::Node::SharedPtr node_;
   bool cached_visible_; /**< @brief This caches if the trajectory was visible for enable and disble calls */
 
-  tesseract_msgs::TrajectoryPtr displaying_trajectory_message_;
-  tesseract_msgs::TrajectoryPtr trajectory_message_to_display_;
+  tesseract_msgs::msg::Trajectory::SharedPtr displaying_trajectory_message_;
+  tesseract_msgs::msg::Trajectory::SharedPtr trajectory_message_to_display_;
 
-  ros::Subscriber trajectory_topic_sub_;
+  rclcpp::Subscription<tesseract_msgs::msg::Trajectory>::SharedPtr trajectory_topic_sub_;
   boost::mutex update_trajectory_message_;
 
   // Pointers from parent display taht we save
@@ -133,17 +137,17 @@ protected:
   int current_state_;
   float current_state_time_;
   TrajectoryPanel* trajectory_slider_panel_;
-  rviz::PanelDockWidget* trajectory_slider_dock_panel_;
+  rviz_common::PanelDockWidget* trajectory_slider_dock_panel_;
   int previous_display_mode_;
   size_t num_trajectory_waypoints_;
 
   // Properties
   rviz_common::properties::Property* main_property_;
-  rviz::EditableEnumProperty* state_display_time_property_;
+  rviz_common::properties::EditableEnumProperty* state_display_time_property_;
   rviz_common::properties::RosTopicProperty* trajectory_topic_property_;
   rviz_common::properties::EnumProperty* display_mode_property_;
   rviz_common::properties::BoolProperty* interrupt_display_property_;
-  rviz::IntProperty* trail_step_size_property_;
+  rviz_common::properties::IntProperty* trail_step_size_property_;
 };
 
 }  // namespace tesseract_rviz

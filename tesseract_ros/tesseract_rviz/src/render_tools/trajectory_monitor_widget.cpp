@@ -38,14 +38,15 @@
 TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <rviz_common/display_context.hpp>
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/color_property.hpp>
-#include <rviz/properties/editable_enum_property.h>
+#include <rviz_common/properties/editable_enum_property.hpp>
 #include <rviz_common/properties/enum_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
-#include <rviz/properties/int_property.h>
+#include <rviz_common/properties/int_property.hpp>
 #include <rviz_common/properties/property.hpp>
 #include <rviz_common/properties/ros_topic_property.hpp>
 #include <rviz_common/properties/string_property.hpp>
@@ -77,8 +78,8 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Proper
 
   trajectory_topic_property_ = new rviz_common::properties::RosTopicProperty("Topic",
                                                           "/tesseract/display_tesseract_trajectory",
-                                                          ros::message_traits::datatype<tesseract_msgs::Trajectory>(),
-                                                          "The topic on which the tesseract_msgs::Trajectory messages "
+                                                          "tesseract_msgs::msg::Trajectory",
+                                                          "The topic on which the tesseract_msgs::msg::Trajectory messages "
                                                           "are received",
                                                           main_property_,
                                                           SLOT(changedTrajectoryTopic()),
@@ -90,7 +91,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Proper
   display_mode_property_->addOptionStd("Loop", 1);
   display_mode_property_->addOptionStd("Trail", 2);
 
-  state_display_time_property_ = new rviz::EditableEnumProperty("State Display Time",
+  state_display_time_property_ = new rviz_common::properties::EditableEnumProperty("State Display Time",
                                                                 "0.05 s",
                                                                 "The amount of wall-time to wait in between displaying "
                                                                 "states along a received trajectory path",
@@ -102,7 +103,7 @@ TrajectoryMonitorWidget::TrajectoryMonitorWidget(rviz_common::properties::Proper
   state_display_time_property_->addOptionStd("0.1 s");
   state_display_time_property_->addOptionStd("0.5 s");
 
-  trail_step_size_property_ = new rviz::IntProperty("Trail Step Size",
+  trail_step_size_property_ = new rviz_common::properties::IntProperty("Trail Step Size",
                                                     1,
                                                     "Specifies the step size of the samples "
                                                     "shown in the trajectory trail.",
@@ -131,17 +132,17 @@ TrajectoryMonitorWidget::~TrajectoryMonitorWidget()
 void TrajectoryMonitorWidget::onInitialize(VisualizationWidget::Ptr visualization,
                                            tesseract::Tesseract::Ptr tesseract,
                                            rviz_common::DisplayContext* context,
-                                           ros::NodeHandle update_nh)
+                                           rclcpp::Node::SharedPtr update_node)
 {
   // Save pointers for later use
   visualization_ = std::move(visualization);
   tesseract_ = std::move(tesseract);
   context_ = context;
-  nh_ = update_nh;
+  node_ = update_node;
 
   previous_display_mode_ = display_mode_property_->getOptionInt();
 
-  rviz::WindowManagerInterface* window_context = context_->getWindowManager();
+  rviz_common::WindowManagerInterface* window_context = context_->getWindowManager();
   if (window_context)
   {
     trajectory_slider_panel_ = new TrajectoryPanel(window_context->getParentWindow());
@@ -197,7 +198,7 @@ void TrajectoryMonitorWidget::createTrajectoryTrail()
 {
   clearTrajectoryTrail();
 
-  tesseract_msgs::TrajectoryPtr t = trajectory_message_to_display_;
+  tesseract_msgs::msg::Trajectory::SharedPtr t = trajectory_message_to_display_;
   if (!t)
     t = displaying_trajectory_message_;
 
@@ -280,11 +281,11 @@ void TrajectoryMonitorWidget::changedTrailStepSize()
 
 void TrajectoryMonitorWidget::changedTrajectoryTopic()
 {
-  trajectory_topic_sub_.shutdown();
+  trajectory_topic_sub_.reset();
   if (!trajectory_topic_property_->getStdString().empty())
   {
-    trajectory_topic_sub_ = nh_.subscribe(
-        trajectory_topic_property_->getStdString(), 5, &TrajectoryMonitorWidget::incomingDisplayTrajectory, this);
+    trajectory_topic_sub_ = node_->create_subscription<tesseract_msgs::msg::Trajectory>(
+        trajectory_topic_property_->getStdString(), 5, std::bind(&TrajectoryMonitorWidget::incomingDisplayTrajectory, this, std::placeholders::_1));
   }
 }
 
@@ -405,15 +406,15 @@ void TrajectoryMonitorWidget::onUpdate(float wall_dt)
     float tm = getStateDisplayTime();
     if (tm < 0.0)  // if we should use realtime
     {
-      ros::Duration d = displaying_trajectory_message_->joint_trajectory.points[static_cast<size_t>(current_state_) + 1]
+      rclcpp::Duration d = displaying_trajectory_message_->joint_trajectory.points[static_cast<size_t>(current_state_) + 1]
                             .time_from_start;
-      if (d.isZero())
+      if (d.seconds() < 1e-6)
         tm = 0;
       else
         tm = static_cast<float>(
             (d - displaying_trajectory_message_->joint_trajectory.points[static_cast<size_t>(current_state_)]
                      .time_from_start)
-                .toSec());
+                .seconds());
     }
 
     if (current_state_time_ > tm)
@@ -443,12 +444,12 @@ void TrajectoryMonitorWidget::onUpdate(float wall_dt)
   }
 }
 
-void TrajectoryMonitorWidget::incomingDisplayTrajectory(const tesseract_msgs::Trajectory::ConstPtr& msg)
+void TrajectoryMonitorWidget::incomingDisplayTrajectory(const tesseract_msgs::msg::Trajectory::ConstSharedPtr msg)
 {
   // Error check
   if (!tesseract_->isInitialized())
   {
-    ROS_ERROR_STREAM_NAMED("trajectory_visualization", "No environment");
+    CONSOLE_BRIDGE_logError("trajectory_visualization", "No environment");
     return;
   }
 
@@ -456,7 +457,7 @@ void TrajectoryMonitorWidget::incomingDisplayTrajectory(const tesseract_msgs::Tr
     visualization_->setTrajectoryVisible(true);
 
   if (!msg->tesseract_state.id.empty() && msg->tesseract_state.id != tesseract_->getEnvironment()->getName())
-    ROS_WARN("Received a trajectory to display for model '%s' but model '%s' "
+    CONSOLE_BRIDGE_logWarn("Received a trajectory to display for model '%s' but model '%s' "
              "was expected",
              msg->tesseract_state.id.c_str(),
              tesseract_->getEnvironment()->getName().c_str());
@@ -490,7 +491,7 @@ void TrajectoryMonitorWidget::incomingDisplayTrajectory(const tesseract_msgs::Tr
     if (!msg->joint_trajectory.points.empty() || !joints_equal)
     {
       boost::mutex::scoped_lock lock(update_trajectory_message_);
-      trajectory_message_to_display_.reset(new tesseract_msgs::Trajectory(*msg));
+      trajectory_message_to_display_.reset(new tesseract_msgs::msg::Trajectory(*msg));
       if (interrupt_display_property_->getBool())
         interruptCurrentDisplay();
     }

@@ -96,7 +96,7 @@ qt_wrap_cpp(${PROJECT_NAME}_render_tools_cpp_MOCS
   include/tesseract_rviz/render_tools/joint_widget.h
   include/tesseract_rviz/render_tools/joint_state_monitor_widget.h
   include/tesseract_rviz/render_tools/environment_widget.h
-#  include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
+  include/tesseract_rviz/render_tools/trajectory_monitor_widget.h
 #  include/tesseract_rviz/render_tools/manipulation_widget.h
 #  include/tesseract_rviz/interactive_marker/integer_action.h
 #  include/tesseract_rviz/interactive_marker/interactive_marker.h
@@ -110,7 +110,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   src/render_tools/trajectory_panel.cpp
   src/render_tools/joint_state_monitor_widget.cpp
   src/render_tools/environment_widget.cpp
-#  src/render_tools/trajectory_monitor_widget.cpp
+  src/render_tools/trajectory_monitor_widget.cpp
 #  src/render_tools/manipulation_widget.cpp
 #  src/interactive_marker/integer_action.cpp
 #  src/interactive_marker/interactive_marker.cpp

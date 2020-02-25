@@ -158,7 +158,7 @@ InteractiveMarker::~InteractiveMarker()
   context_->getSceneManager()->destroySceneNode(reference_node_);
 }
 
-InteractiveMarkerControl::Ptr InteractiveMarker::createInteractiveControl(const std::string& name,
+InteractiveMarkerControl::SharedPtr InteractiveMarker::createInteractiveControl(const std::string& name,
                                                                           const std::string& description,
                                                                           const InteractiveMode interactive_mode,
                                                                           const OrientationMode orientation_mode,

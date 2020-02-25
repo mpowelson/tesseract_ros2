@@ -137,7 +137,7 @@ ManipulationWidget::~ManipulationWidget()
 
 void ManipulationWidget::onInitialize(Ogre::SceneNode* root_node,
                                       rviz_common::DisplayContext* context,
-                                      VisualizationWidget::Ptr visualization,
+                                      VisualizationWidget::SharedPtr visualization,
                                       tesseract::Tesseract::Ptr tesseract,
                                       ros::NodeHandle update_nh,
                                       ManipulatorState state,
@@ -354,7 +354,7 @@ bool ManipulationWidget::changeManipulator(QString manipulator)
     {
       std::string name = joint_name + "_interactive_marker";
       std::string disc = "Move joint: " + joint_name;
-      InteractiveMarker::Ptr interactive_marker =
+      InteractiveMarker::SharedPtr interactive_marker =
           boost::make_shared<InteractiveMarker>(name,
                                                 disc,
                                                 tesseract_->getEnvironmentConst()->getRootLinkName(),
@@ -371,7 +371,7 @@ bool ManipulationWidget::changeManipulator(QString manipulator)
           Eigen::Vector3d disc_axis(1, 0, 0);
           Eigen::Quaternionf q = Eigen::Quaterniond::FromTwoVectors(disc_axis, joint->axis).cast<float>();
 
-          InteractiveMarkerControl::Ptr control =
+          InteractiveMarkerControl::SharedPtr control =
               interactive_marker->createInteractiveControl("move_" + joint_name,
                                                            "Move prismatic joint: " + joint_name,
                                                            InteractiveMode::MOVE_AXIS,
@@ -387,7 +387,7 @@ bool ManipulationWidget::changeManipulator(QString manipulator)
         {
           Eigen::Vector3d disc_axis(1, 0, 0);
           Eigen::Quaternionf q = Eigen::Quaterniond::FromTwoVectors(disc_axis, joint->axis).cast<float>();
-          InteractiveMarkerControl::Ptr control =
+          InteractiveMarkerControl::SharedPtr control =
               interactive_marker->createInteractiveControl("rotate_x",
                                                            "Rotate around X Axis",
                                                            InteractiveMode::ROTATE_AXIS,

@@ -46,7 +46,7 @@
 #include "rviz_rendering/geometry.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
 
-#include "rviz/ogre_helpers/line.h"
+#include "rviz_rendering/objects/line.hpp"
 
 //#include "rviz/default_plugin/marker_utils.h"
 //#include "rviz/default_plugin/markers/points_marker.h"
@@ -219,7 +219,7 @@ void InteractiveMarkerControl::updateSize()
 
 Ogre::SceneNode* InteractiveMarkerControl::getMarkerSceneNode() { return markers_node_; }
 
-void InteractiveMarkerControl::addMarker(MarkerBase::Ptr marker)
+void InteractiveMarkerControl::addMarker(MarkerBase::SharedPtr marker)
 {
   marker->setInteractiveObject(shared_from_this());
 
@@ -640,8 +640,9 @@ void InteractiveMarkerControl::moveAxis(const Ogre::Ray& mouse_ray, const rviz_c
 
   // project control-axis ray onto screen.
   Ogre::Vector2 control_ray_screen_start, control_ray_screen_end;
-  worldToScreen(control_ray.getOrigin(), event.viewport, control_ray_screen_start);
-  worldToScreen(control_ray.getPoint(1), event.viewport, control_ray_screen_end);
+  // TODO: Fix for ROS 2
+//  worldToScreen(control_ray.getOrigin(), event.viewport, control_ray_screen_start);
+//  worldToScreen(control_ray.getPoint(1), event.viewport, control_ray_screen_end);
 
   Ogre::Vector2 mouse_point(event.x, event.y);
 

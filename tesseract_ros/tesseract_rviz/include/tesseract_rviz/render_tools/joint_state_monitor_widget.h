@@ -29,14 +29,14 @@ class JointStateMonitorWidget : public QObject
   Q_OBJECT
 
 public:
-  using Ptr = std::shared_ptr<JointStateMonitorWidget>;
+  using SharedPtr = std::shared_ptr<JointStateMonitorWidget>;
   using ConstSharedPtr = std::shared_ptr<const JointStateMonitorWidget>;
 
   JointStateMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display);
 
   virtual ~JointStateMonitorWidget();
 
-  void onInitialize(VisualizationWidget::Ptr visualization,
+  void onInitialize(VisualizationWidget::SharedPtr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     rviz_common::DisplayContext* context,
                     rclcpp::Node::SharedPtr update_node);
@@ -52,7 +52,7 @@ private Q_SLOTS:
 protected:
   rviz_common::properties::Property* widget_;
   rviz_common::Display* display_;
-  VisualizationWidget::Ptr visualization_;
+  VisualizationWidget::SharedPtr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   rclcpp::Node::SharedPtr node_;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_subscriber_;

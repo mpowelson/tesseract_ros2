@@ -129,7 +129,7 @@ TrajectoryMonitorWidget::~TrajectoryMonitorWidget()
     delete trajectory_slider_dock_panel_;
 }
 
-void TrajectoryMonitorWidget::onInitialize(VisualizationWidget::Ptr visualization,
+void TrajectoryMonitorWidget::onInitialize(VisualizationWidget::SharedPtr visualization,
                                            tesseract::Tesseract::Ptr tesseract,
                                            rviz_common::DisplayContext* context,
                                            rclcpp::Node::SharedPtr update_node)

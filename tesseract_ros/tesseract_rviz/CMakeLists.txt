@@ -112,7 +112,7 @@ add_library(${PROJECT_NAME}_render_tools SHARED
   src/render_tools/environment_widget.cpp
   src/render_tools/trajectory_monitor_widget.cpp
 #  src/render_tools/manipulation_widget.cpp
-  src/interactive_marker/integer_action.cpp
+#  src/interactive_marker/integer_action.cpp
 #  src/interactive_marker/interactive_marker.cpp
 #  src/interactive_marker/interactive_marker_control.cpp
   src/markers/marker_base.cpp

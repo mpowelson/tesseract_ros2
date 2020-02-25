@@ -76,7 +76,7 @@ public:
                     const float scale = 1);
   virtual ~InteractiveMarker();
 
-  InteractiveMarkerControl::Ptr createInteractiveControl(const std::string& name,
+  InteractiveMarkerControl::SharedPtr createInteractiveControl(const std::string& name,
                                                          const std::string& description,
                                                          const InteractiveMode interactive_mode,
                                                          const OrientationMode orientation_mode,
@@ -170,7 +170,7 @@ Q_SIGNALS:
                     Eigen::Isometry3d transform,
                     Eigen::Vector3d mouse_point,
                     bool mouse_point_valid);
-  void statusUpdate(rviz::StatusProperty::Level level, const std::string& name, const std::string& text);
+  void statusUpdate(rviz_common::properties::StatusProperty::Level level, const std::string& name, const std::string& text);
 
 protected Q_SLOTS:
   void handleMenuSelect(int menu_item_id);
@@ -217,7 +217,7 @@ protected:
   bool pose_changed_;
   double time_since_last_feedback_;
 
-  std::map<std::string, InteractiveMarkerControl::Ptr> controls_;
+  std::map<std::string, InteractiveMarkerControl::SharedPtr> controls_;
 
   std::string name_;
   std::string description_;
@@ -254,7 +254,7 @@ protected:
 
   rviz_rendering::Axes* axes_;
 
-  InteractiveMarkerControl::Ptr description_control_;
+  InteractiveMarkerControl::SharedPtr description_control_;
 
   std::string topic_ns_;
   std::string client_id_;

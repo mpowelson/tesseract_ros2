@@ -123,7 +123,7 @@ public:
    * @brief Add marker to the controller
    * @param marker to add to the controller
    */
-  void addMarker(MarkerBase::Ptr marker);
+  void addMarker(MarkerBase::SharedPtr marker);
 
   // called when interactive mode is globally switched on/off
   virtual void enableInteraction(bool enable);

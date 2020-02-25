@@ -35,14 +35,14 @@ class EnvironmentWidget : public QObject
   Q_OBJECT
 
 public:
-  using Ptr = std::shared_ptr<EnvironmentWidget>;
+  using SharedPtr = std::shared_ptr<EnvironmentWidget>;
   using ConstSharedPtr = std::shared_ptr<const EnvironmentWidget>;
 
   EnvironmentWidget(rviz_common::properties::Property* widget, rviz_common::Display* display, const std::string& widget_ns = std::string());
 
   virtual ~EnvironmentWidget();
 
-  void onInitialize(VisualizationWidget::Ptr visualization,
+  void onInitialize(VisualizationWidget::SharedPtr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     rviz_common::DisplayContext* context,
                     rclcpp::Node::SharedPtr update_nh,
@@ -71,7 +71,7 @@ private Q_SLOTS:
 protected:
   rviz_common::properties::Property* widget_;
   rviz_common::Display* display_;
-  VisualizationWidget::Ptr visualization_;
+  VisualizationWidget::SharedPtr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   rclcpp::Node::SharedPtr node_;
   rclcpp::Subscription<tesseract_msgs::msg::TesseractState>::SharedPtr tesseract_state_subscriber_; /**< @brief subscriber for getting environment updates */

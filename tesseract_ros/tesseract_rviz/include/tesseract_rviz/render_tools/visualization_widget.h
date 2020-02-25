@@ -103,7 +103,7 @@ class VisualizationWidget : public QObject
 {
   Q_OBJECT
 public:
-  using Ptr = std::shared_ptr<VisualizationWidget>;
+  using SharedPtr = std::shared_ptr<VisualizationWidget>;
   using ConstSharedPtr = std::shared_ptr<const VisualizationWidget>;
 
   VisualizationWidget(Ogre::SceneNode* root_node,

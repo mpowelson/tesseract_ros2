@@ -81,14 +81,14 @@ class TrajectoryMonitorWidget : public QObject
   Q_OBJECT
 
 public:
-  using Ptr = std::shared_ptr<TrajectoryMonitorWidget>;
+  using SharedPtr = std::shared_ptr<TrajectoryMonitorWidget>;
   using ConstSharedPtr = std::shared_ptr<const TrajectoryMonitorWidget>;
 
   TrajectoryMonitorWidget(rviz_common::properties::Property* widget, rviz_common::Display* display);
 
   virtual ~TrajectoryMonitorWidget();
 
-  void onInitialize(VisualizationWidget::Ptr visualization,
+  void onInitialize(VisualizationWidget::SharedPtr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     rviz_common::DisplayContext* context,
                     rclcpp::Node::SharedPtr update_node);
@@ -120,7 +120,7 @@ protected:
   rviz_common::properties::Property* widget_;
   rviz_common::Display* display_;
   rviz_common::DisplayContext* context_;
-  VisualizationWidget::Ptr visualization_;
+  VisualizationWidget::SharedPtr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   rclcpp::Node::SharedPtr node_;
   bool cached_visible_; /**< @brief This caches if the trajectory was visible for enable and disble calls */
@@ -131,7 +131,7 @@ protected:
   rclcpp::Subscription<tesseract_msgs::msg::Trajectory>::SharedPtr trajectory_topic_sub_;
   boost::mutex update_trajectory_message_;
 
-  // Pointers from parent display taht we save
+  // Pointers from parent display that we save
   bool animating_path_;
   bool drop_displaying_trajectory_;
   int current_state_;

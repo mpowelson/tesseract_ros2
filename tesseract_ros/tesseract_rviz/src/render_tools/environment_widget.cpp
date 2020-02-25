@@ -116,7 +116,7 @@ EnvironmentWidget::EnvironmentWidget(rviz_common::properties::Property* widget, 
 
 EnvironmentWidget::~EnvironmentWidget() {}
 
-void EnvironmentWidget::onInitialize(VisualizationWidget::Ptr visualization,
+void EnvironmentWidget::onInitialize(VisualizationWidget::SharedPtr visualization,
                                      tesseract::Tesseract::Ptr tesseract,
                                      rviz_common::DisplayContext* context,
                                      rclcpp::Node::SharedPtr update_node,

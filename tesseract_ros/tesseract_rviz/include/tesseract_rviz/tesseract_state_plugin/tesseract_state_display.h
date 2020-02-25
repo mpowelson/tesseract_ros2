@@ -82,9 +82,9 @@ protected:
   ros::NodeHandle nh_;
 
   tesseract::Tesseract::Ptr tesseract_;
-  VisualizationWidget::Ptr visualization_;
-  JointStateMonitorWidget::Ptr state_monitor_;
-  EnvironmentWidget::Ptr environment_monitor_;
+  VisualizationWidget::SharedPtr visualization_;
+  JointStateMonitorWidget::SharedPtr state_monitor_;
+  EnvironmentWidget::SharedPtr environment_monitor_;
 };
 
 }  // namespace tesseract_rviz

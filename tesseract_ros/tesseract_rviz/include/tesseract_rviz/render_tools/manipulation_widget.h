@@ -69,7 +69,7 @@ class ManipulationWidget : public QObject
   Q_OBJECT
 
 public:
-  using Ptr = std::shared_ptr<ManipulationWidget>;
+  using SharedPtr = std::shared_ptr<ManipulationWidget>;
   using ConstSharedPtr = std::shared_ptr<const ManipulationWidget>;
 
   enum class ManipulatorState
@@ -84,7 +84,7 @@ public:
 
   void onInitialize(Ogre::SceneNode* root_node,
                     rviz_common::DisplayContext* context,
-                    VisualizationWidget::Ptr visualization,
+                    VisualizationWidget::SharedPtr visualization,
                     tesseract::Tesseract::Ptr tesseract,
                     ros::NodeHandle update_nh,
                     ManipulatorState state,
@@ -133,14 +133,14 @@ protected:
   rviz_common::properties::Property* widget_;
   rviz_common::Display* display_;
   rviz_common::DisplayContext* context_;
-  VisualizationWidget::Ptr visualization_;
+  VisualizationWidget::SharedPtr visualization_;
   tesseract::Tesseract::Ptr tesseract_;
   ros::NodeHandle nh_;
   ManipulatorState state_;
-  InteractiveMarker::Ptr interactive_marker_;
-  std::map<std::string, InteractiveMarker::Ptr> joint_interactive_markers_;
+  InteractiveMarker::SharedPtr interactive_marker_;
+  std::map<std::string, InteractiveMarker::SharedPtr> joint_interactive_markers_;
   std::vector<std::string> manipulators_;
-  tesseract_kinematics::InverseKinematics::Ptr inv_kin_;
+  tesseract_kinematics::InverseKinematics::SharedPtr inv_kin_;
   Eigen::VectorXd inv_seed_;
   int env_revision_;
   std::unordered_map<std::string, double> joints_;

@@ -4,7 +4,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <rviz_common/properties/ros_topic_property.hpp>
 #include <rviz_common/window_manager_interface.hpp>
 
-//#include <tesseract_rosutils/utils.h>
+#include <tesseract_rosutils/utils.h>
 TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <tesseract_rviz/render_tools/joint_state_monitor_widget.h>
@@ -29,7 +29,7 @@ JointStateMonitorWidget::JointStateMonitorWidget(rviz_common::properties::Proper
 
 JointStateMonitorWidget::~JointStateMonitorWidget() { /*joint_state_subscriber_.shutdown();*/ }
 
-void JointStateMonitorWidget::onInitialize(VisualizationWidget::Ptr visualization,
+void JointStateMonitorWidget::onInitialize(VisualizationWidget::SharedPtr visualization,
                                            tesseract::Tesseract::Ptr tesseract,
                                            rviz_common::DisplayContext* context,
                                            rclcpp::Node::SharedPtr update_node)
@@ -56,7 +56,7 @@ void JointStateMonitorWidget::newJointStateCallback(const sensor_msgs::msg::Join
   if (isUpdateRequired(*joint_state_msg))
   {
     CONSOLE_BRIDGE_logWarn("Conversion has not been defined in rosutils yet. Go do that.");
-//    tesseract_rosutils::processMsg(tesseract_->getEnvironment(), *joint_state_msg);
+    tesseract_rosutils::processMsg(tesseract_->getEnvironment(), *joint_state_msg);
     update_required_ = true;
   }
 }

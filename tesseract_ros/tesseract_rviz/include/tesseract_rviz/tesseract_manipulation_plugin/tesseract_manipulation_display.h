@@ -64,9 +64,9 @@ protected:
   ros::NodeHandle nh_;
 
   tesseract::Tesseract::Ptr tesseract_;
-  VisualizationWidget::Ptr visualization_;
-  EnvironmentWidget::Ptr environment_monitor_;
-  ManipulationWidget::Ptr manipulation_;
+  VisualizationWidget::SharedPtr visualization_;
+  EnvironmentWidget::SharedPtr environment_monitor_;
+  ManipulationWidget::SharedPtr manipulation_;
 };
 
 }  // namespace tesseract_rviz

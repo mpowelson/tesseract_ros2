@@ -281,12 +281,17 @@ void TrajectoryMonitorWidget::changedTrailStepSize()
 
 void TrajectoryMonitorWidget::changedTrajectoryTopic()
 {
+  if(trajectory_topic_property_ && trajectory_topic_property_->getStdString() != "")
+  {
   trajectory_topic_sub_.reset();
   if (!trajectory_topic_property_->getStdString().empty())
   {
     trajectory_topic_sub_ = node_->create_subscription<tesseract_msgs::msg::Trajectory>(
         trajectory_topic_property_->getStdString(), 5, std::bind(&TrajectoryMonitorWidget::incomingDisplayTrajectory, this, std::placeholders::_1));
   }
+  }
+  else
+    CONSOLE_BRIDGE_logWarn("Tesseract trajectory topic is invalid");
 }
 
 void TrajectoryMonitorWidget::changedStateDisplayTime() {}

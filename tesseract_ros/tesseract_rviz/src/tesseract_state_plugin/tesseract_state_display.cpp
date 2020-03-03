@@ -49,7 +49,7 @@ TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_rviz
 {
-TesseractStateDisplay::TesseractStateDisplay() : Display()
+TesseractStateDisplay::TesseractStateDisplay() : Display(), node_(new rclcpp::Node("tesseract_state_display"))
 {
   tesseract_ = std::make_shared<tesseract::Tesseract>();
   environment_monitor_ = std::make_shared<EnvironmentWidget>(this, this);

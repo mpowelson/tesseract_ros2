@@ -513,14 +513,20 @@ bool EnvironmentWidget::getEnvironmentChangesCallback(const std::shared_ptr<rmw_
 
 void EnvironmentWidget::changedTesseractStateTopic()
 {
+  if(tesseract_state_topic_property_ && tesseract_state_topic_property_->getStdString() != "")
+  {
   tesseract_state_subscriber_.reset();
 
   // reset model to default state, we don't want to show previous messages
   //  current_state_ = nullptr;
   update_required_ = true;
 
+
   tesseract_state_subscriber_ = node_->create_subscription<tesseract_msgs::msg::TesseractState>(
       tesseract_state_topic_property_->getStdString(), 10, std::bind(&EnvironmentWidget::newTesseractStateCallback, this, std::placeholders::_1));
+  }
+  else
+    CONSOLE_BRIDGE_logWarn("Tesseract state topic is invalid");
 }
 
 void EnvironmentWidget::newTesseractStateCallback(const tesseract_msgs::msg::TesseractState::ConstSharedPtr state_msg)

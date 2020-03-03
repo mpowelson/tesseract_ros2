@@ -43,7 +43,7 @@
 
 namespace tesseract_rviz
 {
-TesseractTrajectoryDisplay::TesseractTrajectoryDisplay() : Display()
+TesseractTrajectoryDisplay::TesseractTrajectoryDisplay() : Display() , node_(new rclcpp::Node("tesseract_trajectory_display"))
 {
   tesseract_ = std::make_shared<tesseract::Tesseract>();
   environment_monitor_ = std::make_shared<EnvironmentWidget>(this, this);

@@ -142,6 +142,9 @@ void TrajectoryMonitorWidget::onInitialize(VisualizationWidget::SharedPtr visual
 
   previous_display_mode_ = display_mode_property_->getOptionInt();
 
+  auto rviz_ros_node = context->getRosNodeAbstraction();
+  trajectory_topic_property_->initialize(rviz_ros_node);
+
   rviz_common::WindowManagerInterface* window_context = context_->getWindowManager();
   if (window_context)
   {

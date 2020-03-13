@@ -128,6 +128,8 @@ void EnvironmentWidget::onInitialize(VisualizationWidget::SharedPtr visualizatio
   node_ = update_node;
   update_state_ = update_state;
 
+  auto rviz_ros_node = context->getRosNodeAbstraction();
+  tesseract_state_topic_property_->initialize(rviz_ros_node);
   tesseract_state_topic_property_->setString(tesseract_state_topic);
 
   using std::placeholders::_1;
@@ -294,7 +296,7 @@ bool EnvironmentWidget::applyEnvironmentCommands(const std::vector<tesseract_msg
         if (!visualization_->addLink(link) || !visualization_->addJoint(joint))
           return false;
 
-        if (!tesseract_->getEnvironment()->addLink(link, joint))
+        if (!tesseract_->getEnvironment()->addLink(std::move(link), std::move(joint)))
           return false;
 
         break;
@@ -310,7 +312,7 @@ bool EnvironmentWidget::applyEnvironmentCommands(const std::vector<tesseract_msg
         if (!visualization_->removeJoint(joints[0]->getName()) || !visualization_->addJoint(joint))
           return false;
 
-        if (!tesseract_->getEnvironment()->moveLink(joint))
+        if (!tesseract_->getEnvironment()->moveLink(std::move(joint)))
           return false;
 
         break;

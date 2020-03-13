@@ -37,6 +37,9 @@ void JointStateMonitorWidget::onInitialize(VisualizationWidget::SharedPtr visual
   visualization_ = std::move(visualization);
   tesseract_ = std::move(tesseract);
   node_ = update_node;
+
+  auto rviz_ros_node = context->getRosNodeAbstraction();
+  joint_state_topic_property_->initialize(rviz_ros_node);
 }
 
 void JointStateMonitorWidget::changedJointStateTopic()
